@@ -1,0 +1,17 @@
+<div class="article-wrapper">
+        <div class="card p-2  m-2">
+            <div class="col-12 col-md-12">
+                <h4 [innerHTML]="article.title"></h4>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-12 col-md-12 m-1">
+                    <img class="img-thumbnail" src="{{article.picture ? article.picture : 'assets/images/vacances.jpg'}}">
+                </div>
+                <div class="col-12 col-md-12 m-1">
+                    <p class="text-justify" [innerHTML]="article.content"></p>
+                    
+                </div>
+            </div>
+    
+        </div>
+    </div>

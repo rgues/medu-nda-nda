@@ -1,0 +1,64 @@
+<ngx-spinner name="add-survey" *ngIf="loading" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="trans-history m-3">
+
+    <div class="row">
+        <div class="col-12 py-3 text-left">
+            <h3>{{ currentSurvey.survey_title }} </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ currentSurvey.survey_desc }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                     
+                        <div class="row my-2" *ngIf="activeList&&activeList.length > 0">
+                                <mat-radio-group  [(ngModel)]="answerId">
+                                    <mat-radio-button class="col-12  col-lg-12 col-md-12" *ngFor="let survey of activeList; let i = index"
+                                        [value]="survey.answer_id" [checked]="false">
+                                       {{survey.answer_desc}}
+                                    </mat-radio-button>
+
+                                </mat-radio-group>
+                        </div>
+                        <div class="row">
+                            <mat-form-field class="col-md-12">
+                                <textarea rows="3" matInput placeholder="{{ 'FORM_COMMENT' | translate }}*"
+                                    [(ngModel)]="comment"></textarea>
+                            </mat-form-field>
+                            <div class="col-12 mt-3 text-right button-area">
+                                <button mat-stroked-button [disabled]="!answerId"
+                                    (click)="surveyAnswer()">{{ 'BTN_SAVE' | translate }}</button>
+                            </div>
+                        </div>
+                    </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img class="pl-2"
+                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </p>
+    </div>
+</div>
+
+<div class="text-center" *ngIf="!loadingShow && activeList&&activeList.length === 0">
+    <p>{{ 'SURVEYS_ANSWERS_EMPTY_LIST' | translate }}</p>
+</div>

@@ -1,0 +1,12 @@
+<swiper [config]="config">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"   *ngFor="let sideArticle of listArticles | positionFilter:position ">
+            <div class="ads-contaner">
+
+                <h3 class="animated infinite fadeIn delay-5s">{{sideArticle.title}}</h3>
+                <p class="animated zoomIn delay-2s" [innerHTML]="sideArticle.content">
+                </p>
+            </div>
+        </div>
+    </div>
+</swiper>

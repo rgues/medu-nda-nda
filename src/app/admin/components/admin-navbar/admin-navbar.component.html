@@ -1,0 +1,272 @@
+<nav class="navbar navbar-expand-lg navbar-default navbar-fat navbar-clean">
+    <a class="navbar-brand" routerLink="/menu/1">
+        <img src="assets/images/medundanda.png">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="navbarsDefault">
+        <span id="hamburgerTrigger" class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="navbarsDefault">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/menu/1"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_WELCOME' | translate }}</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 12">
+                <a class="nav-link" routerLink="/admin/articles"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_NEWS' | translate }}</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active"
+                *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6">
+                <a class="nav-link" routerLink="/article/articles-list"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_ARTICLES' | translate }}</a>
+            </li>
+
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+                <a class="nav-link" routerLink="/admin/executive-member"
+                    (click)="isCollapsed = !isCollapsed">{{'ADMIN_NAVBAR_OFFICER' | translate}}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+                <a class="nav-link" routerLink="/family/list-family"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_FAMILY' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active"
+                *ngIf="user.executive_id===1 || user.executive_id===2 || user.executive_id===10 || user.executive_id===13">
+                <a class="nav-link" routerLink="/rpn"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_RPN' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id!==12">
+                <a class="nav-link" routerLink="/visite"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_VISITS' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id!==12">
+                <a class="nav-link" routerLink="/admin/research-member"
+                    (click)="isCollapsed = !isCollapsed">{{'BTN_SEARCH' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id!==12">
+                <a class="nav-link" routerLink="/job"
+                    (click)="isCollapsed = !isCollapsed">{{'ADMIN_NAVBAR_JOBS' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id!==12">
+                <a class="nav-link" routerLink="/footer"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_FOOTER' | translate }}</a>
+            </li>
+
+            <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id!==12">
+                <a class="nav-link" routerLink="/testimony"
+                    (click)="isCollapsed = !isCollapsed">{{ 'ADMIN_NAVBAR_THOUGHT' | translate }}</a>
+            </li>
+
+            <li ngbDropdown class="nav-item dropdown btn-member"
+                *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'ADMIN_NAVBAR_MEMBERS' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-left">
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6"
+                            (click)="isCollapsed = !isCollapsed" [routerLink]="['/admin/create-member']">
+                            {{ 'BTN_ADD' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/admin/list-member']">
+                            {{ 'LIST_MEMBER_TITLE' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13 || user.executive_id === 3 || user.executive_id === 4"
+                            (click)="isCollapsed = !isCollapsed" [routerLink]="['/wallet']">
+                            {{ 'BTN_WALLET' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/member-doc/add-doc']">
+                            {{ 'MEMBER_DOCUMENT_ADD' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/admin/list-contact']">
+                            {{ 'CONTACT_MENU' | translate }}
+                        </a>   
+                         <a ngbDropdownItem  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13"  [routerLink]="['/message/create-message']" class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed">
+                            {{ 'WRITE_MESSAGE' | translate }}
+                        </a> 
+                        <a ngbDropdownItem  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13"   [routerLink]="['/message']" class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed">
+                            {{ 'LIST_MESSAGES' | translate }}
+                        </a>
+                    <a ngbDropdownItem  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13"   [routerLink]="['/videos/add-video']" class="btn btn-sm dropdown-item"
+                        (click)="isCollapsed = !isCollapsed">
+                        {{ 'ADD_VIDEO' | translate }}
+                      </a> 
+                      <a ngbDropdownItem  [routerLink]="['/videos/list-videos-approuve']" class="btn btn-sm dropdown-item"
+                        (click)="isCollapsed = !isCollapsed">
+                        {{ 'PUBLIC_VIDEO' | translate }}
+                      </a> 
+                        <a  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13" ngbDropdownItem  [routerLink]="['/videos']" class="btn btn-sm dropdown-item"
+                        (click)="isCollapsed = !isCollapsed">
+                        {{ 'LIST_VIDEOS' | translate }}
+                      </a> 
+                    </div>
+                </div>
+            </li>
+
+
+            <li ngbDropdown class="nav-item dropdown btn-member"
+                *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6 || user.executive_id===9">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'ADMIN_NAVBAR_EVENTS' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-left">
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/events']">
+                            {{ 'EVENT_DASHBOARD_EVENT_LIST' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/picture-event/add-picture']">
+                            {{ 'EVENT_PICTURE_ADD' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li ngbDropdown class="nav-item dropdown btn-member"
+                *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'ADMIN_NAVBAR_MEETING' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-left">
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/family/family-reception-add']">
+                            {{ 'RECEPTION_FAMILY' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/reception/assign']">
+                            {{ 'RECEPTION_MEMBER' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/reception/attendance']">
+                            {{ 'MEMBER_ATTENDANCE' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li ngbDropdown class="nav-item dropdown btn-member" *ngIf="user.executive_id !== 12">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'NAV_DOCUMENTS' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-left">
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed;documentList(1)">
+                            {{ 'EVENT_REPORT' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed;documentList(2)">
+                            {{ 'NOTES_DECISIONS' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="user.executive_id !== 11"
+                            (click)="isCollapsed = !isCollapsed;documentList(3)">
+                            {{ 'OFFICE_REPORT' | translate }}
+                        </a>
+
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed;documentList(5)">
+                            {{ 'CORRESPONDANCES' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed;documentList(6)">
+                            {{ 'ANNOUNCEMENT' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed;documentList(-1)">
+                            {{ 'OTHERS_DOCS' | translate }}
+                        </a>
+
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6"
+                            [routerLink]="['/doc/list-docs']">
+                            {{ 'DOCS_LIST' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6"
+                            (click)="isCollapsed = !isCollapsed" [routerLink]="['/report-type/list-type']">
+                            {{ 'DOCS_TYPE' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+            <li ngbDropdown class="nav-item dropdown btn-member" *ngIf="user.executive_id !== 12">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'ADMIN_NAVBAR_SURVEY' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-left">
+                        <a ngbDropdownItem  *ngIf="user.executive_id===1 || user.executive_id === 2 || user.executive_id === 13" class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/survey/add-survey']">
+                            {{ 'SURVEY_CREATE' | translate }}
+                        </a>
+                        <a   *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13" ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed" [routerLink]="['/survey/list-survey']">
+                            {{ 'SURVEYS_LIST' | translate }}
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"  (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/survey/detail-survey']">
+                            {{ 'SURVEY_ANSWER_CONSULT' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+
+            <li ngbDropdown class="nav-item dropdown btn-member">
+                <a ngbDropdownToggle class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1 dropdown-toggle" id="dropdown02">
+                    {{ 'ADMIN_MY_PROFILE' | translate }}
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu p-3 text-center" aria-labelledby="dropdown02">
+                    <div class="d-block text-center">
+                        <div class="user-avatar">
+                            <img src="{{user.Photo_url ? user.Photo_url : 'assets/images/user.png'}}"
+                                alt="" />
+                        </div>
+                        <p><small>{{user.Lname}} {{user.Fname}}</small></p>
+                    </div>
+                    <div class="d-block text-left">
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="isCollapsed = !isCollapsed"
+                            [routerLink]="['/admin/profile', user.member_id]">
+                            <mat-icon>perm_identity</mat-icon> <span>{{ 'ADMIN_INFOS' | translate }}</span>
+                        </a>
+                        <a ngbDropdownItem class="btn btn-sm dropdown-item"
+                            (click)="isCollapsed = !isCollapsed; logout()">
+                            <mat-icon>power_settings_new</mat-icon> <span>{{ 'ADMIN_LOGOUT' | translate }}</span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>

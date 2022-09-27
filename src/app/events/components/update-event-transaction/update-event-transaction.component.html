@@ -1,0 +1,29 @@
+<ngx-spinner name="update-trsaction" *ngIf="loading" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate }}</p>
+</ngx-spinner>
+<div class="container" id="login">
+    <div class="text-center modal-header">
+       <h3>{{ 'EVENT_UPDATE_AMOUNT' | translate }}</h3>
+    </div> 
+    <div class="modal-body">
+        <form class="row" [formGroup]="transactionForm">
+            <div class="col-12 form-group">
+                <input type="text"[ngClass]="(montant.dirty && !montant.valid)?'form-control form-control-error':'form-control'"  name="montant" placeholder="{{ 'FORM_AMOUNT' | translate }}" formControlName="nouveau_montant" required>    
+                <div class="error" *ngIf="montant.dirty && montant.invalid">
+                    {{ 'FORM_AMOUNT_ERROR_MSG' | translate }}
+                </div>                                
+            </div>
+        
+            <div class="col-12">
+                <div class="row m-3">
+
+                    <div  class="col-12 col-md text-right"> 
+                        <button mat-stroked-button class="btn-share" [disabled]="transactionForm.invalid" type="submit" (click)="updateAmount()">{{ 'BTN_UPDATED' | translate }}</button>
+                    </div>                
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,81 @@
+<div class="trans-history m-3">
+        <div class="row">
+                <div class="form-group col-md-5" >
+                        <label>{{ 'FILTER_BY_FAMILY' | translate }} :</label>
+                        <select class="form-control" (change)="filetrByFamily(currentFamily)"   [(ngModel)]="currentFamily" [ngModelOptions]="{standalone:true}" >
+                             <option  [value]="'-1'">{{'ALL_TEXT' | translate}}</option>
+                             <option *ngFor="let family of familyList" [value]="family.famille_id">{{family.family_name}}</option>
+                       </select>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-12 py-3">
+                <div class="tab-wrappers">
+                    <div class="tab-content">
+                        <div class="table-responsive">
+                            <table class="table table-striped" >
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_NAME' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_FAMILY' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_STATUS' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_JOIN' | translate }}</th>
+                                        <th scope="col">
+                                          <button class="m-1" mat-stroked-button (click)="addMember()">{{ 'BTN_ADD' | translate }}</button>
+                                        </th>
+                                        <th scope="col">
+                                         <button  class="m-1" mat-stroked-button (click)="walletRPNMember()"> {{ 'RPN_WALLET' | translate }}</button>
+                                        </th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="activerpnMembers&&activerpnMembers.length > 0">
+                                    <tr *ngFor="let member of activerpnMembers; let i = index">
+                                        <th>{{i+1}}</th>
+                                        <td>{{member.family_member_name}}</td>
+                                        <td>{{getFamilyName(member.family_id)}}</td>
+                                        <td>{{member.family_member_status === 1 ? ('FORM_ACTIF' | translate)  : ('FORM_INACTIF' | translate)}}</td>
+                                        <td>{{member.created_at}}</td>
+                                        <td>
+                                            <button mat-stroked-button (click)="updateRPNMember(member)">{{ 'BTN_UPDATE' | translate }}</button>
+                                        </td>
+                                   
+                                        <td>
+                                            <button mat-stroked-button (click)="deleteRPNMember(member)">{{ 'BTN_DELETE' | translate }}</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2 d-flex justify-content-end mr-4"
+                    *ngIf="activerpnMembers && activerpnMembers.length > 0 && totalPages>1">
+                    <div class="row justify-content-between">
+                        <div class="col-3 p-0">
+                            <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                        </div>
+                        <div class="col-2 p-0">
+                            <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"  class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                                <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                    {{item}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-3 p-0">
+                            <span class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activerpnMembers.length:nbItemsByPage*currentPage}}
+                                of {{nbItems}}
+                            </span>
+                        </div>
+                        <div class="col-1 pagination-text">
+                            <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                        </div>
+                        <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                            <i class="mat-icon material-icons">chevron_right</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

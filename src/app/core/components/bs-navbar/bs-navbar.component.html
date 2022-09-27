@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg navbar-default navbar-fat navbar-clean">
+  <a class="navbar-brand" routerLink="/">
+    <img src="assets/images/medundanda.png" />
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    (click)="isCollapsed = !isCollapsed"
+    [attr.aria-expanded]="!isCollapsed"
+    aria-controls="navbarsDefault"
+  >
+    <span id="hamburgerTrigger" class="hamburger-box">
+      <span class="hamburger-inner"></span>
+    </span>
+  </button>
+
+  <div
+    class="collapse navbar-collapse"
+    [ngbCollapse]="isCollapsed"
+    id="navbarsDefault"
+  >
+    <ul class="navbar-nav ml-auto">
+      <li
+        class="nav-item"
+        *ngFor="let menu of categoriesList; let i = index"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a
+          class="nav-link"
+          [routerLink]="['/menu', menu.category_id]"
+          (click)="
+            getActiveCategory(menu.category_id); isCollapsed = !isCollapsed
+          "
+          >{{ menu.category_desc }}</a
+        >
+      </li>
+
+      <li class="nav-item" routerLinkActive="active">
+        <a
+          class="nav-link"
+          routerLink="/contact-us"
+          (click)="isCollapsed = !isCollapsed"
+          >{{ "BS_NAVBAR_CONTACT_US" | translate }}</a
+        >
+      </li>
+      <li ngbDropdown class="nav-item dropdown btn-lang">
+        <a
+          ngbDropdownToggle
+          class="btn btn-sm btn-outline-dark dropdown-toggle mt-md-1"
+          id="dropdown01"
+        >
+          {{
+            currentLang && currentLang[defaultIndex]
+              ? currentLang[defaultIndex].name
+              : ""
+          }}
+        </a>
+        <!--   <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+                    <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngFor="let lang of currentLang; let i = index"
+                        (click)="updateLanguage(i)">{{!lang.active ? lang.name : ''}}</a>
+                </div> -->
+      </li>
+      <li class="nav-item btn-login" *ngIf="!authMenu">
+        <button
+          class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1"
+          (click)="open()"
+        >
+          {{ "BS_NAVBAR_LOGIN" | translate }}
+        </button>
+      </li>
+      <li class="nav-item btn-login" *ngIf="authMenu">
+        <button
+          class="btn btn-sm btn-share px-3 ml-md-2 mt-md-1"
+          (click)="goToDashboard()"
+        >
+          {{ "BS_NAVBAR_DASHBOARD" | translate }}
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

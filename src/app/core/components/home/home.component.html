@@ -1,0 +1,104 @@
+<!-- Bannière articles -->
+<div class="article-banner">
+  <div class="container px-lg-5">
+    <div class="row justify-content-center px-lg-5">
+      <div class="col-12 col-lg-10">
+        <h2 class="my-3">
+          Association Medu &nbsp;<span class="text-ui1">Nda-Nda Canada </span
+          ><span class="text-ui2">Nda-Nda Canada</span>
+        </h2>
+        <p>{{ "HOME_SLOGAN" | translate }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main and slides articles -->
+<div class="main-container">
+  <div class="row">
+    <!-- Main Articles -->
+    <div class="main-article col-md-9">
+      <app-list-articles [articles]="activelistArticles"></app-list-articles>
+      <div
+        class="mt-2 d-flex justify-content-end mr-4"
+        *ngIf="
+          activelistArticles && activelistArticles.length > 0 && totalPages > 1
+        "
+      >
+        <div class="row justify-content-between">
+          <div class="col-3 p-0">
+            <span class="pagination-text">{{ "FORM_NUMBER" | translate }}</span>
+          </div>
+          <div class="col-2 p-0">
+            <select
+              style="border-width: 0px;"
+              (change)="updateNumberItems(nbItemsByPage)"
+              class="pagination-text"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="nbItemsByPage"
+            >
+              <option
+                class="pagination-text"
+                *ngFor="let item of getNumberItems()"
+                [value]="item"
+              >
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <div class="col-3 p-0">
+            <span class="pagination-text"
+              >{{
+                currentPage > 1 ? (currentPage - 1) * nbItemsByPage + 1 : 1
+              }}-{{
+                nbItemsByPage * currentPage > nbItems
+                  ? nbItemsByPage * (currentPage - 1) +
+                    activelistArticles.length
+                  : nbItemsByPage * currentPage
+              }}
+              of {{ nbItems }}
+            </span>
+          </div>
+          <div class="col-1 pagination-text">
+            <i
+              class="mat-icon material-icons"
+              (click)="previousActiveList(currentPage)"
+              >chevron_left</i
+            >
+          </div>
+          <div
+            class="col-1 pagination-text"
+            (click)="nextActiveList(currentPage)"
+          >
+            <i class="mat-icon material-icons">chevron_right</i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SideBar Articles -->
+    <div class="sidebar-article col-md-3">
+      <div class="sidebar1">
+        <app-sidebar-articles [position]="2"></app-sidebar-articles>
+      </div>
+
+      <div class="sidebar2">
+        <app-sidebar-articles [position]="3"></app-sidebar-articles>
+      </div>
+
+      <div class="sidebar3">
+        <app-sidebar-articles [position]="4"></app-sidebar-articles>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Slides-articles For Publicity -->
+<div [ngClass]="{ 'footer-article': ads }">
+  <app-slides-articles (articles)="getAds($event)"></app-slides-articles>
+</div>
+
+<!-- Feedbacks members -->
+<div class="feedbacks py-md-4">
+  <carousel></carousel>
+</div>

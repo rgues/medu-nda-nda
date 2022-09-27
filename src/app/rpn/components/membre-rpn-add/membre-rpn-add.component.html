@@ -1,0 +1,57 @@
+<ngx-spinner name="add-member" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0">
+                    <div class="col-12 m-3">
+                        <h4 class="py-2 text-center">{{ 'RPN_ADD_MEMBER' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formRpnMember" class="row m-2">
+
+                        <!-- -->
+                        <div class="form-group col-md-5" >
+                                <label>{{ 'FORM_FAMILY' | translate }}*</label>
+                                <select class="form-control" (change)="updateFamily(formRpnMember.value.currentFamily)"   formControlName="currentFamily" >
+                                     <option *ngFor="let family of familyList; let i = index" [value]="i">{{family.family_name}}</option>
+                               </select>
+                        </div>
+
+                        <mat-form-field class="col-md-5 mt-4">
+                            <input  matInput placeholder="{{ 'FORM_MEMBER_NEW' | translate }}*" formControlName="currentMemberName">
+                        </mat-form-field>
+
+                     
+                       <div class="col-md-2 mt-4" *ngIf="formRpnMember.value.currentFamily && formRpnMember.value.currentMemberName">
+                            <a class="btn btn-sm" (click)="addSelectedMember()"> <mat-icon>person_add</mat-icon></a>
+                       </div>
+
+                       <div class="form-group col-md-12" *ngIf="formRpnMember.value.currentFamily && memberList.length > 0" >
+                        <label>{{ 'FORM_MEMBER_FAMILY' | translate }} : </label>
+                        <select class="form-control">
+                             <option *ngFor="let member of memberList; let j = index" >{{member.family_member_name}}</option>
+                       </select>
+                      </div> 
+
+                          <div class="col-md-12" *ngFor="let member of memberSelect; let k = index">
+                               <strong> {{ 'FORM_MEMBER' | translate }} {{k+1}} : </strong>{{member.family_member_name}}
+                                    <a class="btn btn-sm" (click)="removeMember(k)"> <mat-icon>delete_forever</mat-icon></a>
+                          </div>
+
+                    <div class="col-12 mt-5 button-area">
+                        <button mat-stroked-button [disabled]="formRpnMember.invalid  || formRpnMember.value.liste_membre.length === 0"
+                            (click)="addRpnFamilyMember()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

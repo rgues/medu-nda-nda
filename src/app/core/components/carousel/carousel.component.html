@@ -1,0 +1,37 @@
+<div class="container">
+    <p  *ngIf="loading" class="text-center">
+    <img class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+     </p>
+    <div class="row" *ngIf="testimonies && testimonies.length > 0 && !loading">
+        <div class="col-12 w-100">
+            <h2 class="my-3 text-center">{{ 'CAROUSEL_TITLE' | translate }}</h2>
+        </div>
+        <div class="col-12  py-md-2" id="they-said">
+            <swiper [config]="config">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" *ngFor="let testimony of testimonies" >
+                        <div class="post-msg">
+                            <p>
+                                <svg class="quote-mark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41.27 32.71">
+                                    <g>
+                                        <path d="M1.16,32.71,0,30.8q9.88-5.29,9.88-9.88A2.72,2.72,0,0,0,9.06,19a12.13,12.13,0,0,0-2.9-2A12.9,12.9,0,0,1,1.6,13.57,7.42,7.42,0,0,1,.23,9,8.69,8.69,0,0,1,2.85,2.62,8.56,8.56,0,0,1,9.12,0a8,8,0,0,1,6.65,3.25,13.44,13.44,0,0,1,2.53,8.48,19.48,19.48,0,0,1-1.66,7.9,21.07,21.07,0,0,1-4.91,6.86A34.47,34.47,0,0,1,1.16,32.71Zm23,0L23,30.8q9.88-5.23,9.88-9.88,0-2-3.72-3.89a13.77,13.77,0,0,1-4.62-3.49A7.36,7.36,0,0,1,23.18,9a8.67,8.67,0,0,1,2.64-6.36A8.61,8.61,0,0,1,32.13,0a8,8,0,0,1,6.6,3.25,13.44,13.44,0,0,1,2.53,8.48A19.61,19.61,0,0,1,34.75,26.5a25.74,25.74,0,0,1-4.33,3.28,49.61,49.61,0,0,1-6.31,2.93Z" />
+                                    </g>
+                                </svg>                      
+                               {{testimony.testimony}}
+                            </p>                     
+                        </div>   
+                        <div class="post-img">
+                            <img src="assets/images/post-img.svg" alt="post image" class="d-block"/>
+                        </div>                          
+                        <div class="post-info">
+                            <p class="post-name my-2"> {{testimony.name}} </p>
+                        </div>
+                    </div>   
+                </div>
+
+                <div class="swiper-pagination position-relative my-3"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </swiper>
+    </div>
+</div>

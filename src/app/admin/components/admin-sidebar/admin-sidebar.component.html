@@ -1,0 +1,354 @@
+<mat-nav-list class="sidebar-nav">
+  <ul class="navbar-nav">
+
+    <!-- Welcome -->
+    <li class="nav-item" routerLinkActive="active" >
+      <a class="nav-link"    routerLink="/menu/1"  routerLinkActive="list-item-active"
+        >{{ "ADMIN_NAVBAR_WELCOME" | translate }}</a>
+    </li>   
+
+       <!-- Profile -->
+       <li ngbDropdown class="nav-item">
+        <a ngbDropdownToggle class="nav-link" id="dropdown06">
+          {{ "ADMIN_MY_PROFILE" | translate }}
+        </a>
+        <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown06">
+          <div class="d-block text-center">
+            <div class="user-avatar">
+              <img src="{{
+                  user.Photo_url ? user.Photo_url : 'assets/images/user.png'
+                }}" alt="" />
+            </div>
+            <p>
+              <small>{{ user.Lname }} {{ user.Fname }}</small>
+            </p>
+          </div>
+          <div class="d-block text-left">
+            <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+              [routerLink]="['/admin/profile', user.member_id]">
+              <mat-icon>perm_identity</mat-icon>
+              <span>{{ "ADMIN_INFOS" | translate }}</span>
+            </a>
+            <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="logout()">
+              <mat-icon>power_settings_new</mat-icon>
+              <span>{{ "ADMIN_LOGOUT" | translate }}</span>
+            </a>
+          </div>
+        </div>
+      </li>
+
+    <!-- News -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 12">
+      <a class="nav-link" routerLink="/admin/articles"
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_NEWS" | translate }}</a>
+    </li>
+
+    <!-- Articles -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="
+        user.executive_id === 1 ||
+        user.executive_id === 2 ||
+        user.executive_id === 13 ||
+        user.executive_id === 5 ||
+        user.executive_id === 6
+      ">
+      <a class="nav-link" routerLink="/article/articles-list" 
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_ARTICLES" | translate }}</a>
+    </li>
+
+    <!-- Offices -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a class="nav-link" routerLink="/admin/executive-member" 
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_OFFICER" | translate }}</a>
+    </li>
+
+    <!-- Family -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a class="nav-link" routerLink="/family/list-family" 
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_FAMILY" | translate }}</a>
+    </li>
+
+     <!-- Rpn -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="
+        user.executive_id === 1 ||
+        user.executive_id === 2 ||
+        user.executive_id === 3 ||
+        user.executive_id === 10 ||
+        user.executive_id === 13
+      ">
+      <a class="nav-link" routerLink="/rpn"
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_RPN" | translate }}</a>
+    </li>
+
+    <!-- Visite -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a class="nav-link" routerLink="/visite" 
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_VISITS" | translate }}</a>
+    </li>
+
+    <!-- Search -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 12">
+      <a class="nav-link" routerLink="/admin/research-member" 
+        routerLinkActive="list-item-active">{{ "BTN_SEARCH" | translate }}</a>
+    </li>
+
+    <!-- Jobs -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 12">
+      <a class="nav-link" routerLink="/job" 
+        routerLinkActive="list-item-active">{{ "ADMIN_NAVBAR_JOBS" | translate }}</a>
+    </li>
+
+    <!-- Footer -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a class="nav-link" routerLink="/footer"
+        >{{ "ADMIN_NAVBAR_FOOTER" | translate }}</a>
+    </li>
+
+   <!-- Testimony -->
+    <li class="nav-item" routerLinkActive="active" *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a class="nav-link" routerLink="/testimony"
+      >{{ "ADMIN_NAVBAR_THOUGHT" | translate }}</a>
+    </li>
+
+    <!-- Sondages -->
+    <li class="nav-item" routerLinkActive="active" ngbDropdown>
+      <a class="nav-link"  routerLinkActive="list-item-active" ngbDropdownToggle id="dropdown01">
+         {{ 'ADMIN_NAVBAR_SURVEY' | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown01">
+        <div class="d-block text-left">
+          <a ngbDropdownItem *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " class="btn btn-sm dropdown-item" 
+            [routerLink]="['/survey/add-survey']">
+            {{ "SURVEY_CREATE" | translate }}
+          </a>
+          <a *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/survey/list-survey']">
+            {{ "SURVEYS_LIST" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/survey/detail-survey']">
+            {{ "SURVEY_ANSWER_CONSULT" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Membres -->
+    <li  class="nav-item" ngbDropdown routerLinkActive="active"   *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a ngbDropdownToggle class="nav-link"  id="dropdown02">
+        {{ "ADMIN_NAVBAR_MEMBERS" | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown02">
+        <div class="d-block text-left">
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13 ||
+              user.executive_id === 5 ||
+              user.executive_id === 6
+            " [routerLink]="['/admin/create-member']">
+            {{ "BTN_ADD" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item"
+            [routerLink]="['/admin/list-member']">
+            {{ "LIST_MEMBER_TITLE" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13 ||
+              user.executive_id === 3 ||
+              user.executive_id === 4
+            " [routerLink]="['/wallet']">
+            {{ "BTN_WALLET" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13 ||
+              user.executive_id === 3 ||
+              user.executive_id === 4
+              " [routerLink]="['/depenses/depenses-list']">
+        {{ "SPENT_TEXT" | translate }}
+      </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/member-doc/add-doc']">
+            {{ "MEMBER_DOCUMENT_ADD" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/admin/list-contact']">
+            {{ "CONTACT_MENU" | translate }}
+          </a>
+          <a ngbDropdownItem *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " [routerLink]="['/message/create-message']" class="btn btn-sm dropdown-item"
+           >
+            {{ "WRITE_MESSAGE" | translate }}
+          </a>
+          <a ngbDropdownItem *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " [routerLink]="['/message']" class="btn btn-sm dropdown-item" >
+            {{ "LIST_MESSAGES" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+
+
+    
+    <!-- Videos -->
+    <li  class="nav-item" ngbDropdown routerLinkActive="active"   *ngIf="user.executive_id !== 11 && user.executive_id !== 12">
+      <a ngbDropdownToggle class="nav-link"  id="dropdown02">
+        {{ "VIDEOS_TEXT" | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown02">
+        <div class="d-block text-left">
+
+          <a ngbDropdownItem *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " [routerLink]="['/videos/add-video']" class="btn btn-sm dropdown-item"
+           >
+            {{ "ADD_VIDEO" | translate }}
+          </a>
+          <a ngbDropdownItem [routerLink]="['/videos/list-videos-approuve']" class="btn btn-sm dropdown-item"
+           >
+            {{ "PUBLIC_VIDEO" | translate }}
+          </a>
+          <a *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13
+            " ngbDropdownItem [routerLink]="['/videos']" class="btn btn-sm dropdown-item"
+            >
+            {{ "LIST_VIDEOS" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+
+   <!-- Events -->
+    <li ngbDropdown class="nav-item" *ngIf="
+        user.executive_id === 1 ||
+        user.executive_id === 2 ||
+        user.executive_id === 13 ||
+        user.executive_id === 5 ||
+        user.executive_id === 6 ||
+        user.executive_id === 9
+      ">
+      <a ngbDropdownToggle class="nav-link" id="dropdown03">
+        {{ "ADMIN_NAVBAR_EVENTS" | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown03">
+        <div class="d-block text-left">
+          <a ngbDropdownItem class="btn btn-sm dropdown-item"
+            [routerLink]="['/events']">
+            {{ "EVENT_DASHBOARD_EVENT_LIST" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item"
+            [routerLink]="['/picture-event/add-picture']">
+            {{ "EVENT_PICTURE_ADD" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+
+     <!-- Events -->
+    <li ngbDropdown class="nav-item" *ngIf="
+        user.executive_id === 1 ||
+        user.executive_id === 2 ||
+        user.executive_id === 13 ||
+        user.executive_id === 5 ||
+        user.executive_id === 6
+      ">
+      <a ngbDropdownToggle class="nav-link" id="dropdown04">
+        {{ "ADMIN_NAVBAR_MEETING" | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown04">
+        <div class="d-block text-left">
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/family/family-reception-add']">
+            {{ "RECEPTION_FAMILY" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/reception/assign']">
+            {{ "RECEPTION_MEMBER" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" 
+            [routerLink]="['/reception/attendance']">
+            {{ "MEMBER_ATTENDANCE" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+
+    <!-- Documents -->
+    <li ngbDropdown class="nav-item" *ngIf="user.executive_id !== 12">
+      <a ngbDropdownToggle class="nav-link" id="dropdown05">
+        {{ "NAV_DOCUMENTS" | translate }}
+      </a>
+      <div ngbDropdownMenu class="dropdown-menu p-1 text-left" aria-labelledby="dropdown05">
+        <div class="d-block text-left">
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="documentList(1)">
+            {{ "EVENT_REPORT" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="documentList(2)">
+            {{ "NOTES_DECISIONS" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="user.executive_id !== 11"
+            (click)="documentList(3)">
+            {{ "OFFICE_REPORT" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="documentList(5)">
+            {{ "CORRESPONDANCES" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="documentList(6)">
+            {{ "ANNOUNCEMENT" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" (click)="documentList(-1)">
+            {{ "OTHERS_DOCS" | translate }}
+          </a>
+
+          <a ngbDropdownItem class="btn btn-sm dropdown-item"  *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13 ||
+              user.executive_id === 5 ||
+              user.executive_id === 6
+            " [routerLink]="['/doc/list-docs']">
+            {{ "DOCS_LIST" | translate }}
+          </a>
+          <a ngbDropdownItem class="btn btn-sm dropdown-item" *ngIf="
+              user.executive_id === 1 ||
+              user.executive_id === 2 ||
+              user.executive_id === 13 ||
+              user.executive_id === 5 ||
+              user.executive_id === 6
+            " (click)="isCollapsed = !isCollapsed" [routerLink]="['/report-type/list-type']">
+            {{ "DOCS_TYPE" | translate }}
+          </a>
+        </div>
+      </div>
+    </li>
+  </ul>
+</mat-nav-list>

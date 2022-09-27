@@ -1,0 +1,135 @@
+<ngx-spinner name="delete-event" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate }}</p>
+</ngx-spinner>
+<div class="trans-history">
+    <div class="row">
+        <div class="col-4 my-4">
+            <div class="text-left">
+                <mat-label>{{ 'FILTER_BY_TYPE' | translate }} : </mat-label>
+                <mat-select class="col-12  col-md-6" (selectionChange)="filterByTypeAndYear(eventTypeFilter, eventYearFilter)"
+                    [(ngModel)]="eventTypeFilter">
+                    <mat-option  [value]="-1">{{ 'ALL_TYPES' | translate }}</mat-option>
+                    <mat-option *ngFor="let type of eventsTypeList" [value]="type.event_type_id">{{type.event_type_desc}}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="col-4 my-4">
+            <div class="text-left">
+                <mat-label>{{ 'FILTER_BY_YEAR' | translate }} : </mat-label>
+                <mat-select class="col-12  col-md-6" (selectionChange)="filterByTypeAndYear(eventTypeFilter, eventYearFilter)"
+                    [(ngModel)]="eventYearFilter">
+                    <mat-option  [value]="-1">{{'ALL' | translate}}
+                    </mat-option>
+                    <mat-option *ngFor="let year of yearList" [value]="year">{{year}}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="col-4 my-2">
+            <div class="text-right">
+                <mat-form-field appearance="outline" class="col-12 col-md-12">
+                    <mat-label>{{ 'FILTER_BY_EVENT_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="loadingShow">
+        <div class="col">
+            <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-12 py-3">
+            <div class="table-responsive">
+                <table class="table" *ngIf="activeEvents&&activeEvents.length > 0">
+                    <thead>
+                        <tr>
+                            <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_DESCRIPTION' | translate }}</th>
+                            <th scope="col">{{ 'FORM_STREET' | translate }}</th>
+                            <th scope="col">{{ 'FORM_MEMBER' | translate }}</th>
+                            <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                            <th scope="col">{{ 'PROFILE_LATENESS' | translate }}</th>
+                            <th scope="col">{{ 'PROFILE_ABSENCE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody  *ngFor="let event of activeEvents; let i = index" >
+                        <tr class="table-borderless">
+                            <th>{{i+1}}</th>
+                            <td>{{getTypeEventName(event.event_type_id)}}</td>
+                            <td>{{event.description}}</td>
+                            <td>{{getLocationEventName(event.event_place_id)}}</td>
+                            <td>{{getMemberName(listMembers, event.member_id)}}</td>
+                            <td>{{event.amount_due}} $</td>
+                            <td>{{event.lateness_fee}} $</td>
+                            <td>{{event.absence_fee}} $</td>
+                            <td>{{event.event_date}}</td> 
+                        </tr>
+                        <tr class="table-borderless">
+                            <th></th>
+                            <td>
+                                <button mat-stroked-button
+                                    (click)="getTransaction(event)">{{ 'FORM_TRANSACTIONS' | translate }}</button>
+                            </td>
+                            <td>
+                                <button mat-stroked-button
+                                    (click)="getAttendance(event)">{{ 'PROFILE_PRESENCE' | translate }}</button>
+                            </td>
+                            <td>
+                                <button mat-stroked-button
+                                    (click)="getLateness(event)">{{ 'PROFILE_LATENESS' | translate }}</button>
+                            </td>
+                          <td>
+                                <button mat-stroked-button
+                                    (click)="getPicture(event)">{{ 'FORM_PICTURES' | translate }}</button>
+                            </td>
+                            <td>
+                                <button mat-stroked-button
+                                    (click)="updateEvent(event)">{{ 'BTN_UPDATE' | translate }}</button>
+                            </td>
+                            <td>
+                                <button mat-stroked-button
+                                    (click)="deleteEvents(event, i)">{{ 'BTN_DELETE' | translate }}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activeEvents && activeEvents.length > 0 && totalPages>1">
+                <div class="row justify-content-between">
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activeEvents.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}
+                        </span>
+                    </div>
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

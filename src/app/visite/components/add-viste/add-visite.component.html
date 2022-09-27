@@ -1,0 +1,88 @@
+<ngx-spinner name="add-visite" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 ">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center"> {{ 'VISIT_ADD_VISIT' | translate }} </h4>
+                    </div>
+                </div>
+                <form [formGroup]="formVisite" class="row m-2">
+
+            
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_FIRSTNAME' | translate }}*" formControlName="prenom">
+                        <mat-error *ngIf="prenom.invalid">
+                            {{ 'FORM_FIRSTNAME_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_LASTNAME' | translate }}*" formControlName="nom">
+                        <mat-error *ngIf="nom.invalid">
+                            {{ 'FORM_LASTNAME_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_RECIEVER' | translate }}*</mat-label>
+                        <mat-select formControlName="member_id">
+                            <mat-option *ngFor="let member of listMembers" [value]="member.member_id">{{member.Fname}} {{member.Lname}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="memberId.invalid">
+                           {{ 'FORM_RECIEVER_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_RELATIONSHIP' | translate }}*</mat-label>
+                        <mat-select formControlName="relation_id">
+                            <mat-option *ngFor="let relation of visiteRelationList" [value]="relation.relation_id">{{relation.relation_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="relationId.invalid">
+                           {{ 'FORM_RELATIONSHIP_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_REASON' | translate }}*</mat-label>
+                        <mat-select formControlName="visit_reason_id">
+                            <mat-option *ngFor="let raison of visiteReasonList" [value]="raison.reason_id">{{raison.reason_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="visitReasonId.invalid">
+                           {{ 'FORM_REASON_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+            
+                    <mat-form-field class="col-md-6">
+                        <input matInput  (click)="dateStart.open()" formControlName="dateValue" [matDatepicker]="dateStart" placeholder="{{ 'FORM_DATE_VISITE' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateStart"></mat-datepicker-toggle>
+                        <mat-datepicker #dateStart [startAt]="startDate"></mat-datepicker>
+                       <mat-error *ngIf="dateError.invalid">
+                           {{ 'FORM_DATE_VISITE_ERROR_MSG' | translate }}
+                        </mat-error> 
+                      </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formVisite.invalid"
+                            (click)="addAvisite()">{{'BTN_SAVE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

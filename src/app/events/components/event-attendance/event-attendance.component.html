@@ -1,0 +1,38 @@
+<ngx-spinner name="event-attendance" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+  type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="row justify-content-right"  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 3 || user.executive_id === 4" >
+  <div class="col-md-2" *ngIf="memberList&&memberList.length > 0">
+    <button mat-stroked-button (click)="imprimerPdf()">{{ 'BTN_PRINT' | translate }} </button>
+</div>
+</div>
+
+<div class="row justify-content-center">
+
+  <div @slideInLeft class="col-12 col-md-12 col-lg-12">
+
+    <form [formGroup]="formEventAttendance" class="row m-2">
+
+       <div class="col-12 col-md-12 m-4" *ngIf="memberList && memberList.length > 0">
+          <h4 class="text-center"> <b>{{ 'EVENT_LIST_PRESENCE' | translate }} :  {{eventData.description}}</b></h4>
+       </div>
+        <div *ngFor="let member of memberList; let i = index" class="col-12 col-md-4">
+          <mat-checkbox name="member i" (change)=" getSelectedMember()" [checked]="false"
+            [ngModelOptions]="{standalone: true}" [(ngModel)]="memberList[i].choice">
+            {{memberList[i].name}}
+          </mat-checkbox>
+         </div>
+
+      <div ngbAutofocus class="col-12 m-3 button-area text-left" *ngIf="memberList && memberList.length > 0" >
+        <button class="btn btn-sm btn-share" style="float: right" [disabled]="formEventAttendance.invalid"
+          (click)="updateEventAttendance()">{{ 'BTN_UPDATE' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="memberList&&memberList.length === 0">
+    <p class="text-center"> {{ 'EVENT_LIST_PRESENCE' | translate }}: {{eventData.description}} {{ 'EVENT_IS_EMPTY' | translate }}</p>
+</div>

@@ -1,0 +1,48 @@
+<ngx-spinner name="send-message" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+  type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">{{ 'SPINNER_SEND' | translate }}</p>
+</ngx-spinner>
+
+<div class="row justify-content-center">
+
+  <div @slideInLeft class="col-12 col-md-12 col-lg-12">
+    <div class="row mx-0">
+      <div class="col-12">
+          <h4 class="py-2 text-center">{{ 'SEND_FAMILY_MEMBER' | translate }}</h4>
+      </div>
+  </div>
+
+    <form [formGroup]="formMessage" class="row m-2">
+
+      <div class="col-12 col-md-12 m-3 text-left">
+        <mat-label>{{'MODE' | translate }} : </mat-label> 
+        <mat-checkbox class="col-12 col-md-4" (change)="updateMode(formMessage.value.mode)" formControlName="mode"  >{{ 'FORM_MEDU' | translate }}</mat-checkbox>
+        <mat-checkbox class="col-12 col-md-4" (change)="updateMode1(formMessage.value.mode1)" formControlName="mode1" >{{ 'FORM_PERSO' | translate }}</mat-checkbox>
+      </div>
+
+      <mat-radio-group (change)="onSelectOrDeselect(formMessage.value.select)"  class="col-12 my-4" formControlName="select" aria-label="User select">
+        <mat-radio-button [value]="1" >
+            {{ 'FORM_SELECT_ALL' | translate }}
+        </mat-radio-button>
+        <mat-radio-button [value]="0" >
+            {{ 'FORM_UNSELECT_ALL' | translate }}
+        </mat-radio-button>
+     </mat-radio-group>
+
+       <div class="col-12 col-md-12 m-3" *ngIf="familleList && familleList.length > 0">
+          <h4 class="text-left"> <b>{{'FAMILY_LIST' | translate }}</b></h4>
+       </div>
+        <div *ngFor="let famille of familleList; let i = index" class="col-12 col-md-6">
+          <mat-checkbox name="famille i" (change)="getSelectedFamily()" [checked]="false"
+            [ngModelOptions]="{standalone: true}" [(ngModel)]="familleList[i].choice">
+            {{familleList[i].name}}
+          </mat-checkbox>
+         </div>
+
+      <div ngbAutofocus class="col-12 m-3 button-area text-right">
+        <button class="btn btn-sm btn-share" [disabled]="formMessage.invalid"
+          (click)="sendTomembers()">{{ 'BTN_SEND' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,132 @@
+<ngx-spinner name="add-article" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 ">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center" >{{ 'ARTCILE_CREATE' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formArticle" class="row m-2">
+
+                    <div class="col-12">
+                        <p class="picture-title">{{ 'CREATE_MEMBER_PICTURE_MESSAGE' | translate }}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="picture m-1">
+                            <img src="{{formArticle.value.picture}}" height="100" width="100" alt=" ">
+                        </div>
+                    </div>
+
+                  <!-- <div class="form-group col-12">
+                        <input style="background-color:#9E9E9E; color: #fff" type="file" ng2FileSelect
+                            [uploader]="uploader" (change)="onFileImage($event)" />
+                    </div> --> 
+
+                    <div class="form-group col-12">
+                        <mat-fileupload [uploadLabel]= "'PICTURE_UPLOAD' | translate" (getFiles)="onFileImage($event)" ></mat-fileupload> 
+                    </div>
+
+                    <div class="col-12" *ngIf="iamgeReadError">
+                        <p style="color: #e85f1c"> {{ 'CREATE_MEMBER_PICTURE_MESSAGE_ERROR1' | translate }}
+                            </p>
+                    </div>
+
+                    <div class="col-12" *ngIf="doctypeError">
+                        <p style="color: #e85f1c"> {{ 'CREATE_MEMBER_PICTURE_MESSAGE_ERROR2' | translate }}</p>
+                    </div>
+
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_TITLE' | translate }}*" formControlName="titre">
+                        <mat-error *ngIf="titre.invalid">
+                            {{ 'FORM_TITLE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'ARTICLE_CONTENT_FR' | translate }}*" formControlName="contenu_fr"></textarea>
+                        <mat-error *ngIf="contenuFr.invalid">
+                            {{ 'ARTICLE_CONTENT_FR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'ARTICLE_CONTENT_EN' | translate }}*" formControlName="contenu_en"></textarea>
+                        <mat-error *ngIf="contenuEn.invalid">
+                            {{ 'ARTICLE_CONTENT_EN_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'ARTICLE_CATEGORIE' | translate }}*</mat-label>
+                        <mat-select formControlName="categorie_id">
+                            <mat-option *ngFor="let cat of categoriesList" [value]="cat.category_id">{{cat.category_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="category.invalid">
+                           {{ 'ARTICLE_CATEGORIE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'ARTICLE_POSITION' | translate }}*</mat-label>
+                        <mat-select formControlName="position_id">
+                            <mat-option *ngFor="let position of positionsList" [value]="position.position_id">{{position.position_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="position.invalid">
+                            {{ 'ARTICLE_POSITION_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput  (click)="dateStart.open()" formControlName="date" [matDatepicker]="dateStart" placeholder="{{'ARTICLE_DATE_CREATION' | translate}}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateStart"></mat-datepicker-toggle>
+                        <mat-datepicker #dateStart [startAt]="startDate"></mat-datepicker>
+                       <mat-error *ngIf="dateError.invalid">
+                            {{ 'ARTICLE_DATE_CREATION_ERROR_MSG' | translate }}
+                        </mat-error> 
+                    </mat-form-field>
+
+                      <mat-form-field class="col-md-6">
+                        <input matInput  (click)="dateFin.open()" formControlName="date_expiration" [matDatepicker]="dateFin" placeholder="{{'ARTICLE_DATE_EXPIRATION' | translate}}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateFin"></mat-datepicker-toggle>
+                        <mat-datepicker #dateFin [startAt]="startDate"></mat-datepicker>
+                       <mat-error *ngIf="dateExpError.invalid">
+                            {{'ARTICLE_DATE_EXPIRATION_ERROR_MSG' | translate}}
+                        </mat-error> 
+                      </mat-form-field>
+
+                      <mat-form-field class="col-md-12">
+                        <mat-label>{{ 'ARTICLE_AUTHOR' | translate }}*</mat-label>
+                        <mat-select formControlName="auteur_id">
+                            <mat-option *ngFor="let author of listMembers" [value]="author.member_id">{{author.Fname}} {{author.Lname}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="author.invalid">
+                           {{ 'ARTICLE_AUTHOR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formArticle.invalid"
+                            (click)="createArticle()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

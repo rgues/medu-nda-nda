@@ -1,0 +1,129 @@
+<div class="trans-history m-3">
+    <div class="row">
+        <div class="col-10 align-items-center">
+            <h3>{{ 'LIST_MEMBER_TITLE' | translate }}</h3>
+        </div>
+        <div class="col-md-2" *ngIf="activelistMembers&&activelistMembers.length > 0 &&(user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6)">
+            <button  mat-stroked-button (click)="imprimerPdf()">{{ 'BTN_PRINT' | translate }}</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 my-4">
+            <div class="text-left">
+                <mat-label>{{ 'FORM_STATUS' | translate }}</mat-label>
+                <mat-select  class="col-12  col-md-3" (selectionChange)="filterStatut(statusFilterId)" [(ngModel)]="statusFilterId">
+                    <mat-option [value]="-1">{{ 'ALL_STATUT' | translate }}
+                    </mat-option>
+                    <mat-option *ngFor="let statut of statusList" [value]="statut.Status_id">{{statut.Status_desc}}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="text-right">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-4">
+                    <mat-label>{{ 'FILTER_BY_MEMBER_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_FIRSTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_LASTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_NDAP' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PHONE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_STATUS' | translate }}</th>
+                                    <th scope="col" *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6">
+                                        {{ 'FORM_TRANSACTION' | translate }}</th>
+                                    <th *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6">
+                                    </th>
+                                    <th  scope="col">{{ 'MEMBERSHIP_FILE' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="activelistMembers&&activelistMembers.length > 0">
+                                <tr *ngFor="let member of activelistMembers; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{member.Fname}}</td>
+                                    <td>{{member.Lname}}</td>
+                                    <td>{{member.Ndap}}</td>
+                                    <td>{{member.Telephone1}}</td>
+                                    <td>
+                                        <span
+                                            *ngIf="user.executive_id !== 1 && user.executive_id!==2 && user.executive_id !== 13 && user.executive_id!==5 && user.executive_id!==6">{{member.Status_desc}}</span>
+                                        <button mat-stroked-button
+                                        *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6"
+                                            (click)="updateStatut(member, 'statut')"> {{member.Status_desc}}</button>
+                                    </td>
+                                    <td
+                                        *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6">
+                                        <button mat-stroked-button
+                                            (click)="showTransaction(member.member_id)">{{'BTN_VIEW' | translate}}</button>
+                                    </td>
+                                    <td
+                                       *ngIf="user.executive_id === 1 || user.executive_id === 2 || user.executive_id === 13 || user.executive_id === 5 || user.executive_id === 6">
+                                        <button mat-stroked-button
+                                            (click)="updateMember(member.member_id)">{{'BTN_UPDATE' | translate}}</button>
+                                    </td>
+                                    <td>
+                                    <button mat-stroked-button (click)="addDoc(member)">{{'BTN_VIEW' | translate}}</button>
+                                  </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activelistMembers && activelistMembers.length > 0 && totalPages>1">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{'FORM_NUMBER' | translate }}</span>
+                    </div>
+
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activelistMembers.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}</span>
+                    </div>
+
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+    </div>
+</div>

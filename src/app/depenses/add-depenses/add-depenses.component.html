@@ -1,0 +1,54 @@
+<ngx-spinner name="form-action" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0">
+                    <div class="col-12 m-3">
+                        <h4 class="py-2 text-center">{{ 'ADD_EXPENSE_TEXT' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formData" class="row m-2">
+
+                    <mat-form-field class="col-md-12">
+                        <mat-label>{{ 'FORM_TYPE' | translate }}*</mat-label>
+                        <mat-select formControlName="spending_type_id">
+                            <mat-option *ngFor="let type of typeList" [value]="type.id">
+                                {{type.type}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12 mt-2">
+                        <textarea rows="3" matInput placeholder="{{ 'FORM_DESCRIPTION' | translate }}*"
+                            formControlName="description"></textarea>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12 mt-2">
+                        <input matInput placeholder="{{ 'FORM_AMOUNT' | translate }}*" formControlName="amount">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <input (click)="dateDep.open()"  matInput formControlName="date" [matDatepicker]="dateDep"
+                            placeholder="{{'FORM_DATE' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateDep"></mat-datepicker-toggle>
+                        <mat-datepicker #dateDep [startAt]="startDate"></mat-datepicker>
+                    </mat-form-field> 
+
+                    <div ngbAutofocus class="col-12 mt-5 button-area">
+                        <button mat-stroked-button [disabled]="formData.invalid"
+                            (click)="addDepense()">{{ 'BTN_SAVE' | translate }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

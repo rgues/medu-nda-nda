@@ -1,0 +1,39 @@
+<div class="trans-history m-3">
+    <div class="row" *ngIf="surveyData">
+        <div class="col-12 py-3 text-center">
+            <h3>{{ 'FORM_MEMBER_ANSWER' | translate }} </h3>
+        </div>
+    </div>
+    <div class="row" *ngIf="surveyData">
+        <div class="col-12 py-3">
+            <h4>{{surveyData.survey_title }} : {{surveyData.created_at ? surveyData.created_at.split(' ')[0] : ''  }} </h4>
+            <p>{{surveyData.survey_desc }}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="answersData&&answersData.length > 0">
+        <div class="col-12 py-3">
+          
+                            <div class="row">
+                                    <div class="col-3"><h6>{{ 'FORM_ANSWERS' | translate }}</h6> </div>
+                                    <div class="col-6"> <h6>{{ 'FORM_COMMENT' | translate }}</h6>  </div>
+                                    <div class="col-3"> <h6>{{ 'FORM_MEMBER' | translate }}</h6></div>
+                            </div>
+                            <div class="row" *ngFor="let ans of answersData; let i = index">
+                                    <div class="col-3"> <p> {{ans.info_answer_survey.answer_desc}}</p></div>
+                                    <div class="col-6"> <p>{{ans.answer_member.comment}} </p></div>
+                                    <div class="col-3"> <span>{{ans.info_member.Fname}} {{ans.info_member.Lname}}</span></div>
+                            </div>
+              
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+    </div>
+</div>
+
+<div class="text-center" *ngIf="!loadingShow && answersData&&answersData.length === 0">
+    <p>{{ 'SURVEYS_MEMBERS_EMPTY_LIST' | translate }}</p>
+</div>

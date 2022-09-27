@@ -1,0 +1,196 @@
+<!-- 
+<ngx-spinner name="delete-article" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">{{ 'SPINNER_DELETE' | translate }}</p>
+</ngx-spinner> -->
+
+<div class="trans-history m-3">
+  <div class="row">
+    <div class="col-4 my-4">
+      <div class="text-left">
+        <mat-label>{{ "FILTER_BY_CATEGORY" | translate }}</mat-label>
+        <mat-select
+          class="col-12 col-md-3"
+          (selectionChange)="filterCategory(categoryFilterId)"
+          [(ngModel)]="categoryFilterId"
+        >
+          <mat-option
+            *ngFor="let cat of categoriesList"
+            [value]="cat.category_id"
+            >{{ cat.category_desc }}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+    <div class="col-4 my-4">
+      <div class="text-left">
+        <mat-radio-group
+          class="col-12 col-md-3"
+          (change)="filterActive(isActive)"
+          [(ngModel)]="isActive"
+        >
+          <mat-radio-button [value]="1" [checked]="isActive === 1">{{
+            "FORM_ACTIVE" | translate
+          }}</mat-radio-button>
+          <mat-radio-button [value]="0" [checked]="isActive === 0">{{
+            "FORM_INACTIVE" | translate
+          }}</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="col-4 my-2">
+      <div class="text-left">
+        <mat-form-field appearance="outline" class="col-12 col-md-6">
+          <mat-label>{{ "FILTER_BY_ARTICLE_NAME" | translate }}</mat-label>
+          <input
+            (change)="filterByKeyword(searchTerm)"
+            matInput
+            [(ngModel)]="searchTerm"
+            name="searchTerm"
+          />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 py-3">
+      <div class="tab-wrappers">
+        <div class="tab-content">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{{ "FORM_NUMBER_LIGNE" | translate }}</th>
+                  <th scope="col">{{ "FORM_TITLE" | translate }}</th>
+                  <th scope="col">{{ "FORM_DESCRIPTION" | translate }}</th>
+                  <th scope="col">{{ "ARTICLE_CATEGORIE" | translate }}</th>
+                  <th scope="col">{{ "ARTICLE_AUTHOR" | translate }}</th>
+                  <th scope="col">{{ "FORM_DATE" | translate }}</th>
+                  <th scope="col">{{ "FORM_STATUS" | translate }}</th>
+                  <th scope="col">{{ "FORM_ACTION" | translate }}</th>
+                  <th scope="col">
+                    <button mat-stroked-button (click)="addArticle()">
+                      {{ "BTN_ADD" | translate }}
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                *ngIf="activelistArticles && activelistArticles.length > 0"
+              >
+                <tr *ngFor="let article of activelistArticles; let i = index">
+                  <th>{{ i + 1 }}</th>
+                  <td>{{ article.title }}</td>
+                  <td>
+                    <p
+                      class="text-left"
+                      [innerHTML]="limitSize(article.content)"
+                    ></p>
+                  </td>
+                  <td>{{ getCategory(article.category_id) }}</td>
+                  <td>{{ getAuthor(article.author_member_id) }}</td>
+                  <td>
+                    {{
+                      article.creation_date
+                        ? article.creation_date.split(" ")[0]
+                        : ""
+                    }}
+                  </td>
+                  <td>{{ article.expired === 1 ? "désactivé" : "activé" }}</td>
+                  <td>
+                    <button mat-stroked-button (click)="updateArticle(article)">
+                      {{ "BTN_UPDATE" | translate }}
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      mat-stroked-button
+                      (click)="deleteArticle(article, i)"
+                    >
+                      {{ "BTN_DELETE" | translate }}
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div
+        class="mt-2 d-flex justify-content-end mr-4"
+        *ngIf="
+          activelistArticles && activelistArticles.length > 0 && totalPages > 1
+        "
+      >
+        <div class="row justify-content-between">
+          <div class="col-3 p-0">
+            <span class="pagination-text">{{ "FORM_NUMBER" | translate }}</span>
+          </div>
+          <div class="col-2 p-0">
+            <select
+              style="border-width: 0px;"
+              (change)="updateNumberItems(nbItemsByPage)"
+              class="pagination-text"
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="nbItemsByPage"
+            >
+              <option
+                class="pagination-text"
+                *ngFor="let item of getNumberItems()"
+                [value]="item"
+              >
+                {{ item }}
+              </option>
+            </select>
+          </div>
+          <div class="col-3 p-0">
+            <span class="pagination-text"
+              >{{
+                currentPage > 1 ? (currentPage - 1) * nbItemsByPage + 1 : 1
+              }}-{{
+                nbItemsByPage * currentPage > nbItems
+                  ? nbItemsByPage * (currentPage - 1) +
+                    activelistArticles.length
+                  : nbItemsByPage * currentPage
+              }}
+              of {{ nbItems }}
+            </span>
+          </div>
+          <div class="col-1 pagination-text">
+            <i
+              class="mat-icon material-icons"
+              (click)="previousActiveList(currentPage)"
+              >chevron_left</i
+            >
+          </div>
+          <div
+            class="col-1 pagination-text"
+            (click)="nextActiveList(currentPage)"
+          >
+            <i class="mat-icon material-icons">chevron_right</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+  <div class="col">
+    <p class="text-center">
+      <img
+        class="pl-2"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+      />
+    </p>
+  </div>
+</div>
+
+<div
+  class="text-center"
+  *ngIf="!loadingShow && activelistArticles && activelistArticles.length === 0"
+>
+  <p>{{ "ARTICLES_EMPTY_LIST" | translate }}</p>
+</div>

@@ -1,0 +1,93 @@
+<div class="trans-history">
+    <div class="row">
+        <div class="col-12 my-2">
+            <div class="text-right">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-4">
+                    <mat-label>{{ 'FILTER_BY_MEMBER_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="loadingShow">
+        <div class="col">
+            <p class="text-center"> <img class="pl-2"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </p>
+        </div>
+    </div>
+     <div class="row" *ngIf="!loadingShow">
+        <div class="col">
+            {{'TOTAL_FAMILIES' | translate}} : <strong>{{total_families ? total_families : 0}}</strong>
+        </div>
+        <div class="col">
+            {{'TOTAL_MEMBERS' | translate}} : <strong>{{total_members ? total_members : 0}}</strong>
+        </div>
+        <div class="col">
+            {{'TOTAL_BALANCE' | translate}}  : <strong>{{total_balance ? total_balance : 0}} $</strong>
+        </div>
+    </div> 
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_FIRSTNAME' | translate }} & {{ 'FORM_LASTNAME' | translate }}</th>
+                            <th scope="col">{{ 'FORM_BALANCE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_EMAIL' | translate }}</th>
+                            <th scope="col">{{ 'FORM_PHONE' | translate }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="activerpnWallet&&activerpnWallet.length > 0">
+                        <tr *ngFor="let trans of activerpnWallet; let i = index">
+                            <th>{{i+1}}</th>
+                            <td> {{trans.infos_membre && trans.infos_membre.Fname ? trans.infos_membre.Fname  : ''}}
+                                {{trans.infos_membre &&  trans.infos_membre.Lname ? trans.infos_membre.Lname : ''}}
+                                </td>
+                            <td>{{trans.solde ? trans.solde : 0 }} $</td>
+                            <td>{{trans.infos_membre && trans.infos_membre.Email ? trans.infos_membre.Email : ''}}</td>
+                            <td>{{trans.infos_membre && trans.infos_membre.Telephone1 ? trans.infos_membre.Telephone1 : ''}}</td>
+
+                            <td>
+                                <button mat-stroked-button (click)="debitRPNMember(trans)">{{ 'BTN_DEBIT' | translate }}</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activerpnWallet && activerpnWallet.length > 0 && totalPages>1">
+                <div class="row justify-content-between">
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activerpnWallet.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}
+                        </span>
+                    </div>
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

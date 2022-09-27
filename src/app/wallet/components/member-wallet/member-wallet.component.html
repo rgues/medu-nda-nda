@@ -1,0 +1,25 @@
+<div @slidePage class="container trans-history" id="wallet-view"> 
+    <div class="row my-2">
+        <div class="col-12 col-lg-6">
+            <h3>{{ 'WALLET_MEMBER_MANAGE' | translate }}</h3>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div @slideBlock class="col-12 col-lg-10">
+            <mat-tab-group animationDuration="0ms">
+                <mat-tab label="{{'WALLET_MEMBER' | translate }}">
+                     <app-credit-member-wallet></app-credit-member-wallet> 
+                </mat-tab>
+                <mat-tab label="{{ 'RPN_PAID_EVENT' | translate }}">
+                     <app-paid-event></app-paid-event>
+                </mat-tab>
+                <mat-tab label="{{ 'FORM_TRANSACTIONS' | translate }}">
+                     <app-wallet-transaction></app-wallet-transaction> 
+                </mat-tab>
+                <mat-tab label="{{ 'FORM_SOLDE' | translate }}">
+                    <app-balance></app-balance> 
+               </mat-tab>
+            </mat-tab-group>                      
+        </div>
+    </div>
+</div>

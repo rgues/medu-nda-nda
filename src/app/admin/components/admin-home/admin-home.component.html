@@ -1,0 +1,18 @@
+<app-admin-header
+  id="header"
+  (toggleSideBarForMe)="sideBarToggler($event)"
+></app-admin-header>
+<mat-drawer-container>
+  <mat-drawer
+    mode="side"
+    [opened]="sideBarOpen"
+    id="logoAndNav"
+    class="mat-drawer"
+  >
+    <app-admin-sidebar></app-admin-sidebar>
+  </mat-drawer>
+  <mat-drawer-content id="home-container">
+    <router-outlet class="admin-home"></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
+

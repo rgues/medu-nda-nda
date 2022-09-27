@@ -1,0 +1,58 @@
+<div class="trans-history">
+        <div class="row">
+            <div class="col-12 py-3">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                <th scope="col">{{ 'FORM_FAMILY' | translate }}</th>
+                                <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                                <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                                <th scope="col">{{ 'FORM_BALANCE' | translate }}</th>
+                                <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="activerpnWallet&&activerpnWallet.length > 0">
+                            <tr *ngFor="let trans of activerpnWallet; let i = index">
+                                <th>{{i+1}}</th>
+                                <td>{{trans.family_name}}</td>
+                                <td>{{trans.transaction_type}}</td>
+                                <td>{{trans.amount}} $</td>
+                                <td>{{trans.solde}} $</td>
+                                <td>{{trans.transaction_date}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-2 d-flex justify-content-end mr-4"
+                    *ngIf="activerpnWallet && activerpnWallet.length > 0 && totalPages>1">
+                    <div class="row justify-content-between">
+                        <div class="col-3 p-0">
+                            <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                        </div>
+                        <div class="col-2 p-0">
+                            <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                                class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                                <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                    {{item}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-3 p-0">
+                            <span
+                                class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activerpnWallet.length:nbItemsByPage*currentPage}}
+                                of {{nbItems}}
+                            </span>
+                        </div>
+                        <div class="col-1 pagination-text">
+                            <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                        </div>
+                        <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                            <i class="mat-icon material-icons">chevron_right</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

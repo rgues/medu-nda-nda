@@ -1,0 +1,33 @@
+
+#slideBackground {
+    width: 100%;
+    height: 400px;
+
+    .slide-image {
+        z-index: 1;
+        img {
+            width: 100%;
+            height: 400px;
+        }
+    }
+    .slide-content {
+        z-index: 2;
+        margin-top: -300px;
+        align-content: center;
+
+        .slide-title{
+            font-size: 4rem;
+            color: #fff;
+            margin: 4px;
+        }
+        
+        .slide-desc {
+            font-size: 2rem;
+            color: #fff;
+            margin: 4px;
+        }
+    }
+
+ 
+}
+

@@ -1,0 +1,55 @@
+<div class="trans-history m-3">
+
+    <div class="row" *ngIf="surveyData">
+        <div class="col-12 py-3 text-center">
+            <h3>{{ 'FORM_STATS' | translate }} </h3>
+        </div>
+    </div>
+    <div class="row" *ngIf="surveyData">
+        <div class="col-12 py-3">
+            <h4>{{surveyData.survey_title }} : {{surveyData.created_at ? surveyData.created_at.split(' ')[0] : ''  }} </h4>
+            <p>{{surveyData.survey_desc }}</p>
+        </div>
+    </div>
+    <div class="row" *ngIf="statsData&&statsData.length > 0">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_ANSWER' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PARTICIPANT' | translate }} </th>
+                                    <th scope="col">{{ 'FORM_NB_MEMBER' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PERCENT' | translate }}</th>
+                               
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor="let stat of statsData; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{stat.info_answer.answer_desc}}</td>
+                                    <td> {{stat.nombre_repondants}}</td>
+                                    <td>{{stat.nombre_total_membre}}</td>
+                                    <td>{{stat.pourcentage}} %</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+    </div>
+</div>
+
+<div class="text-center" *ngIf="!loadingShow && statsData&&statsData.length === 0">
+    <p>{{ 'SURVEYS_STATS_EMPTY_LIST' | translate }}</p>
+</div>

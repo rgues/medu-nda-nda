@@ -1,0 +1,260 @@
+<ngx-spinner name="create-member" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 page-title">
+                    <div class="col-12">
+                        <h4 class="py-2">{{ 'CREATE_MEMBER_ADDMEMBER' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formMember" class="row m-2">
+
+                    <div class="col-12">
+                        <p class="picture-title">{{ 'CREATE_MEMBER_PICTURE_MESSAGE' | translate }}</p>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="picture m-1">
+                            <img src="{{formMember.value.picture}}" height="100" width="100" alt=" ">
+                        </div>
+                    </div>
+
+                   <!-- <div class="form-group col-12">
+                        <input style="background-color:#9E9E9E; color: #fff" type="file" ng2FileSelect
+                            [uploader]="uploader" (change)="onFileImage($event)" />
+                    </div> -->
+
+                    <div class="form-group col-12">
+                        <mat-fileupload [uploadLabel]= "'PICTURE_UPLOAD' | translate" (getFiles)="onFileImage($event)" ></mat-fileupload> 
+                    </div>
+
+                    <div class="col-12" *ngIf="iamgeReadError">
+                        <p style="color: #e85f1c"> {{ 'CREATE_MEMBER_PICTURE_MESSAGE_ERROR' | translate }}</p>
+                    </div>
+
+                    <div class="col-12" *ngIf="doctypeError">
+                        <p style="color: #e85f1c"> {{ 'CREATE_MEMBER_PICTURE_MESSAGE_ERROR2' | translate }}</p>
+                    </div>
+
+
+                    <mat-form-field class="col-md-6">
+                        <input (change)="generateSpeudo()" matInput placeholder="{{ 'FORM_FISRTNANE' | translate }}*" formControlName="firstname">
+                        <mat-error *ngIf="firstname.invalid">
+                           {{ 'FORM_FIRSTNAME_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (change)="generateSpeudo()" matInput placeholder="{{ 'FORM_LASTNAME' | translate }}*" formControlName="lastname">
+                        <mat-error *ngIf="lastname.invalid">
+                           {{ 'FORM_LASTNAME_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label> {{ 'FORM_TITLE' | translate }}*</mat-label>
+                        <mat-select formControlName="title">
+                            <mat-option *ngFor="let title of titleList" [value]="title.Title">{{title.Title}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="title.invalid">
+                           {{ 'FORM_TITLE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_NDAP' | translate }}" formControlName="ndap">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_ADDRESS' | translate }}" formControlName="address">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput (change)="checkCodePostal(formMember.value.postal_code)"
+                            placeholder="{{ 'FORM_POBOX' | translate }}" formControlName="postal_code">
+                        <div style="color:#e85f1c" *ngIf="errorCodePostal">
+                           {{ 'FORM_POBOX_MSG_ERROR' | translate }}
+                        </div>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_COUNTRY' | translate }}</mat-label>
+                        <mat-select formControlName="pays">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let country of citiesList" [value]="country.Country">{{country.Country}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_TOWN' | translate }}</mat-label>
+                        <mat-select formControlName="city_id">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let city of citiesList" [value]="city.City_Id">{{city.City}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_REGION' | translate }}</mat-label>
+                        <mat-select formControlName="province">
+                             <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let province of provinceList" [value]="province.Province">
+                                {{province.Province}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_EMAIL' | translate }}*" formControlName="email">
+                        <mat-error *ngIf="email.invalid">
+                            {{ 'FORM_EMAIL_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-12 col-md-6">
+                        <input (change)="updatePhone1(formMember.value.telephone1)" matInput placeholder="{{ 'FORM_PHONE' | translate }} 1*"
+                            formControlName="telephone1">
+                        <mat-error *ngIf="telephone1.invalid">
+                            {{ 'FORM_PHONE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-12 col-md-6">
+                        <input (change)="updatePhone2(formMember.value.telephone2)" matInput placeholder="{{ 'FORM_PHONE' | translate }} 2"
+                            formControlName="telephone2">
+                        <mat-error *ngIf="telephone2.invalid">
+                            {{ 'FORM_PHONE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_PROFESSION' | translate }}</mat-label>
+                        <mat-select formControlName="profession_id">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let prof of professionList" [value]="prof.Profession_Id">
+                                {{prof.Profession_desc}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_STATUS' | translate }}*</mat-label>
+                        <mat-select formControlName="status_id">
+                            <mat-option *ngFor="let statut of statusList" [value]="statut.Status_id">
+                                {{statut.Status_desc}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_DAY_OF_BIRTH' | translate }}</mat-label>
+                        <mat-select formControlName="day_of_birthday">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let day of days" [value]="day">{{day}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_MONTH_OF_BIRTH' | translate }}</mat-label>
+                        <mat-select formControlName="month_of_birthday">
+                           <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let month of months;let i=index" [value]="(i+1)">{{month}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_SPONSOR' | translate }}</mat-label>
+                        <mat-select formControlName="sponsor_id">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let sponsor of sponsorsList" [value]="sponsor.member_id">
+                                {{sponsor.Fname}} {{sponsor.Lname}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_FAMILY' | translate }}</mat-label>
+                        <mat-select formControlName="family_id">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let family of familiesList" [value]="family.famille_id">
+                                {{family.family_name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (click)="dateAdhesion.open()"  matInput formControlName="status_date" [matDatepicker]="dateAdhesion"
+                            placeholder="{{ 'FORM_DATE_ADHESION' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateAdhesion"></mat-datepicker-toggle>
+                        <mat-datepicker #dateAdhesion [startAt]="startDate"></mat-datepicker>
+                      <mat-error *ngIf="statusDate.invalid">
+                        {{ 'FORM_DATE_ADHESION_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_SOURCE' | translate }}</mat-label>
+                        <mat-select formControlName="source_info_id">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let source of sourcesList" [value]="source.info_source_id">
+                                {{source.info_source_desc}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_ROLE' | translate }}</mat-label>
+                        <mat-select formControlName="role_id">
+                           <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let role of roleList" [value]="role.executive_id">
+                                {{role.executive_desc}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_LANGUE' | translate }}</mat-label>
+                        <mat-select formControlName="langue">
+                            <mat-option  [value]="''"> </mat-option>
+                            <mat-option *ngFor="let lang of languageList" [value]="lang.language_code">
+                                {{lang.language_desc}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-radio-group formControlName="gender" class="col-md-12 mt-3" aria-label="gender">
+                            <mat-label class="picture-title">{{ 'FORM_GENDER' | translate }}* </mat-label>
+                            <mat-radio-button value="Homme" checked>{{defaultLang==='fr' ? 'Homme' : 'Male'}}
+                            </mat-radio-button>
+                            <mat-radio-button value="Femme">{{defaultLang==='fr' ? 'Femme' : 'Female'}}</mat-radio-button>
+                    </mat-radio-group>
+
+                   <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_USERNAME' | translate }}*" formControlName="username">
+                        <mat-error *ngIf="username.invalid">
+                            {{ 'FORM_USERNAME_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{'FORM_PASSWORD' | translate }}*" formControlName="password">
+                        <mat-error *ngIf="password.invalid">
+                            {{ 'FORM_PASSWORD_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formMember.invalid || errorCodePostal"
+                            (click)="createMember()">{{ 'FORM_BTN_SAVED' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

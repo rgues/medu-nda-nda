@@ -1,0 +1,72 @@
+<ngx-spinner name="pay-event" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+  type="ball-scale-multiple">
+  <p style="font-size: 20px; color: white">{{'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="row justify-content-center">
+
+  <div @slideInLeft class="col-12 col-md-12 col-lg-12">
+
+    <form [formGroup]="formRpnEventPayment" class="row m-2">
+
+      <mat-form-field class="col-md-6">
+        <input (click)="dateValue.open()" matInput formControlName="date" [matDatepicker]="dateValue" placeholder="{{'FORM_DATE' | translate }}*">
+        <mat-datepicker-toggle matSuffix [for]="dateValue"></mat-datepicker-toggle>
+        <mat-datepicker #dateValue [startAt]="startDateSelect"></mat-datepicker>
+        <mat-error *ngIf="dateError.invalid">
+          {{'FORM_DATE_ERROR_MSG' | translate }}
+        </mat-error>
+      </mat-form-field> 
+
+      <mat-form-field class="col-md-6">
+        <input matInput placeholder="{{'FORM_AMOUNT' | translate }}*" formControlName="montant_par_membre">
+        <mat-error *ngIf="montant.invalid">
+          {{'FORM_AMOUNT_ERROR_MSG' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6">
+        <mat-label>{{'FORM_TYPE' | translate }}*</mat-label>
+        <mat-select (selectionChange)="filtersEvents(formRpnEventPayment.value.event_type_id)"
+          formControlName="event_type_id">
+          <mat-option *ngFor="let type of eventsTypeList" [value]="type.event_type_id">{{type.event_type_desc}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="type.invalid">
+          {{'FORM_TYPE_ERROR_MSG' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-6" *ngIf="formRpnEventPayment.value.event_type_id && eventsTypeListFilter && eventsTypeListFilter.length >0">
+        <mat-label>{{'FORM_EVENT' | translate }}*</mat-label>
+        <mat-select formControlName="event_id">
+          <mat-option *ngFor="let event of eventsTypeListFilter" [value]="event.event_id">{{event.description}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="event.invalid">
+          {{'FORM_EVENT_ERROR_MSG' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <div class="col-md-6" *ngIf="formRpnEventPayment.value.event_type_id  && type.dirty && eventsTypeListFilter && eventsTypeListFilter.length === 0">
+          <div class="error">
+              {{ 'FORM_EVENT_NOEVENT_TYPE' | translate }}
+          </div>
+      </div>
+
+       <div class="col-12 col-md-12 m-3" *ngIf="memberList && memberList.length > 0">
+          <h4 class="text-left"> <b>{{'LIST_MEMBER_TITLE' | translate }}</b></h4>
+       </div>
+        <div *ngFor="let member of memberList; let i = index" class="col-12 col-md-6">
+          <mat-checkbox name="member i" (change)=" getSelectedMember()" [checked]="false"
+            [ngModelOptions]="{standalone: true}" [(ngModel)]="memberList[i].choice">
+            {{memberList[i].name}}
+          </mat-checkbox>
+         </div>
+
+      <div ngbAutofocus class="col-12 m-3 button-area text-left">
+        <button class="btn btn-sm btn-share" [disabled]="formRpnEventPayment.invalid"
+          (click)="paidEvent()">{{ 'BTN_SAVE' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</div>

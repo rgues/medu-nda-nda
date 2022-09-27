@@ -1,0 +1,55 @@
+<ngx-spinner name="add-survey" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 ">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center" >{{ 'SURVEY_CREATE' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formSurvey" class="row m-2">
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_TITLE' | translate }} (Fr)*" formControlName="title_fr">
+                        <mat-error *ngIf="titleFr.invalid">
+                            {{ 'FORM_TITLE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_TITLE' | translate }} (En)*" formControlName="title_en">
+                        <mat-error *ngIf="titleEn.invalid">
+                            {{ 'FORM_TITLE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'FORM_DESCRIPTION_FR' | translate }}*" formControlName="description_fr"></textarea>
+                        <mat-error *ngIf="descriptionFr.invalid">
+                            {{ 'FORM_DESCRIPTION_FR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'FORM_DESCRIPTION_EN' | translate }}*" formControlName="description_en"></textarea>
+                        <mat-error *ngIf="descriptionEn.invalid">
+                            {{ 'FORM_DESCRIPTION_EN_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formSurvey.invalid" (click)="createSurvey()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

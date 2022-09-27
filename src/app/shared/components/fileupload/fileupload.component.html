@@ -1,0 +1,22 @@
+<button mat-stroked-button class="btn-share"
+        (click)="onClick($event)">
+  <mat-icon>add</mat-icon>
+  {{uploadLabel}}
+</button>
+<input #fileUpload
+       type="file"
+       class="input_fileupload--hidden"
+       (input)="onInput($event)"
+       (change)="onFileSelected($event)"
+       [(ngModel)]="inputFileName"
+       [accept]="accept" />
+
+<div *ngFor="let f of files">
+  <span>{{f.name}}</span>
+  <button mat-icon-button
+        class="share"
+        [attr.title]="deleteButtonLabel?deleteButtonLabel:null"
+        (click)="removeFile($event,f)">
+    <mat-icon>{{deleteButtonIcon}}</mat-icon>
+  </button>
+</div>

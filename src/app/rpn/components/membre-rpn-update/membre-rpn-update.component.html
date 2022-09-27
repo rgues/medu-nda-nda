@@ -1,0 +1,35 @@
+<ngx-spinner name="update-rpn-member" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate}} </p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0">
+                    <div class="col-12 m-3">
+                        <h4 class="py-2 text-center">{{ 'FORM_UPDATE' | translate}}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formFamily" class="row m-2">
+                    
+                    <div class="form-group col-md-12" >
+                            <label>{{ 'FORM_STATUS' | translate }}* : </label>
+                            <select class="form-control" formControlName="family_member_status">
+                                 <option [value]="1">{{ 'FORM_ACTIF' | translate }}</option>
+                                 <option [value]="0">{{ 'FORM_INACTIF' | translate }}</option>
+                           </select>
+                    </div>
+                    <div ngbAutofocus class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formFamily.invalid"
+                            (click)="updateRPNMember()">{{ 'BTN_UPDATE' | translate }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

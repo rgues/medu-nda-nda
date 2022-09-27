@@ -1,0 +1,58 @@
+<ngx-spinner name="save-report" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="row justify-content-around">
+    <div class="card col-12 col-md-6">
+
+        <div @slideInLeft class="col-12 col-md-12 col-lg-12">
+
+            <div class="row mx-0 page-title">
+                <div class="col-12 text-center">
+                    <h4 class="py-2">{{ 'MEMBER_DOCUMENT_ADD' | translate }}</h4>
+                </div>
+            </div>
+
+            <form [formGroup]="reportForm" class="row m-2">
+
+              <mat-form-field class="col-md-12">
+                    <mat-label>{{ 'FORM_MEMBER' | translate }}*</mat-label>
+                    <mat-select formControlName="member_id">
+                        <mat-option *ngFor="let author of listMembers" [value]="author.member_id">{{author.Fname}} {{author.Lname}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="author.invalid">
+                       {{ 'FORM_MEMBER_ERROR_MSG' | translate }}
+                    </mat-error>
+                </mat-form-field> 
+
+                <mat-form-field class="col-md-12">
+                    <input matInput placeholder="{{ 'FORM_REPORT_NAME' | translate }}*" formControlName="nom_document">
+                    <mat-error *ngIf="docname.invalid">
+                       {{ 'FORM_DOC_NAME_ERROR' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="col-12 col-md-12 mt-2" *ngIf="reportForm.value.nom_document">
+                    <mat-fileupload [uploadLabel]="'FORM_DOCUMENT' | translate" (getFiles)="getDocument($event)"></mat-fileupload>
+                    <mat-error *ngIf="typeMimeError">
+                        <p>{{ 'FORM_DOC_ERROR_MSG' | translate }}</p>
+                    </mat-error>
+                </div>
+
+                <mat-error *ngIf="content.invalid && reportForm.value.liste_fiche.length === 0 && reportForm.value.nom_document">
+                    <p>{{ 'FORM_DOC_CONTENT_MSG' | translate }}</p>
+                </mat-error>
+
+                <div ngbAutofocus class="col-12 m-3 button-area text-left">
+                    <button class="btn btn-sm btn-share m-3" style="float: right"
+                        [disabled]="reportForm.invalid"
+                        (click)="saveReport()">{{ 'BTN_SAVE' | translate }}</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<ngx-spinner name="update-event" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center">{{ 'EVENT_DETAIL_INFORMATIONS' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formEvent" class="row m-2">
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_TYPE' | translate }}*</mat-label>
+                        <mat-select formControlName="event_type_id">
+                            <mat-option *ngFor="let type of eventsTypeList" [value]="type.event_type_id">
+                                {{type.event_type_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="eventType.invalid">
+                            {{ 'FORM_TYPE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_STREET' | translate }}*</mat-label>
+                        <mat-select formControlName="event_place_id">
+                            <mat-option *ngFor="let place of eventPlaceList" [value]="place.place_id">
+                                {{place.place_name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="placeEvent.invalid">
+                           {{ 'FORM_STREET_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_DESCRIPTION_FR' | translate }}*" formControlName="nom_event_fr">
+                        <mat-error *ngIf="nomEventFr.invalid">
+                            {{ 'FORM_DESCRIPTION_FR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_DESCRIPTION_EN' | translate }}*" formControlName="nom_event_en">
+                        <mat-error *ngIf="nomEventEn.invalid">
+                            {{ 'FORM_DESCRIPTION_EN_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (click)="dateEvents.open()" (dateChange)="updateEndEvent()" matInput formControlName="date_event" [matDatepicker]="dateEvents"
+                            placeholder="{{ 'FORM_DATE_START' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateEvents"></mat-datepicker-toggle>
+                        <mat-datepicker #dateEvents [startAt]="startDate"></mat-datepicker>
+                        <mat-error *ngIf="dateEventError.invalid">
+                            {{ 'FORM_DATE_START_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (click)="dateEvent.open()"  matInput formControlName="date_echeance" [matDatepicker]="dateEvent"
+                            placeholder="{{ 'FORM_DATE_DUE' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateEvent"></mat-datepicker-toggle>
+                        <mat-datepicker #dateEvent [startAt]="startDate"></mat-datepicker>
+                        <mat-error *ngIf="dueDateError.invalid">
+                            {{ 'FORM_DATE_DUE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field> 
+
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_PARTICIPATION_FEES' | translate }}*"
+                            formControlName="frais_par_membre">
+                        <mat-error *ngIf="memberFees.invalid">
+                            {{ 'FORM_PARTICIPATION_FEES_ERROR_MESSAGE' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input  matInput placeholder="{{ 'FORM_LATENESS_FEES' | translate }}"
+                            formControlName="frais_retard">
+                        <mat-error *ngIf="lateFees.invalid">
+                            {{ 'FORM_PARTICIPATION_FEES_ERROR_MESSAGE' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input matInput placeholder="{{ 'FORM_ABSENCE_FEES' | translate }}"
+                            formControlName="frais_absence">
+                        <mat-error *ngIf="absenceFees.invalid">
+                            {{ 'FORM_ABSENCE_FEES_ERROR_MESSAGE' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formEvent.invalid"
+                            (click)="updateEvent()">{{ 'BTN_UPDATE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

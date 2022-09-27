@@ -1,0 +1,18 @@
+<div class="container" id="confirm">  
+    <div class="modal-header">
+        <h4>{{ 'DELETE_TITLE' | translate }}</h4>
+    </div>  
+    <div class="modal-body">
+        <p>
+            {{ 'DELETE_MESSAGE' | translate }}
+        </p>
+    </div>
+    <div class="mondal-footer mb-3 text-right">
+        <button ngbAutofocus mat-stroked-button class="mr-2" 
+            (click)="cancelMessage()">{{'BTN_NO' | translate }}
+        </button>
+        <button mat-stroked-button class="btn-share" (click)="confirmMessage()" type="submit">
+            {{'BTN_YES' | translate }}
+        </button>
+    </div>
+</div>

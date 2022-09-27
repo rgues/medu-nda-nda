@@ -1,0 +1,43 @@
+<ngx-spinner name="create-message" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center">{{ 'UPDATE_MESSAGE' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formMessage" class="row m-2">
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{'FORM_OBJET' | translate }}*" formControlName="object">
+                        <mat-error *ngIf="object.invalid">
+                                {{'FORM_OBJET_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea matInput placeholder="{{'FORM_MESSAGE' | translate }}*" formControlName="content"></textarea>
+                        <mat-error *ngIf="content.invalid">
+                                {{'FORM_MESSAGE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formMessage.invalid"
+                            (click)="updateMessage()">{{ 'BTN_UPDATE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

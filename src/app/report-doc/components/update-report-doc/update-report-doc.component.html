@@ -1,0 +1,54 @@
+<ngx-spinner name="save-report" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_UPDATE' | translate }}</p>
+</ngx-spinner>
+
+<div class="row justify-content-around">
+    <div class="card col-12 col-md-6">
+
+        <div @slideInLeft class="col-12 col-md-12 col-lg-12">
+
+            <div class="row mx-0 page-title">
+                <div class="col-12 text-center">
+                    <h4 class="py-2">{{ 'REPORT_UPDATE_REPORT' | translate }}</h4>
+                </div>
+            </div>
+
+            <form [formGroup]="reportForm" class="row m-2">
+
+                <mat-form-field class="col-md-12">
+                    <input matInput placeholder="{{ 'FORM_REPORT_NAME' | translate }}*" formControlName="nom_document">
+                    <mat-error *ngIf="docname.invalid">
+                       {{ 'FORM_DOC_NAME_ERROR' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>{{ 'FORM_TYPE_REPORT' | translate }}*</mat-label>
+                    <mat-select formControlName="type_file_id">
+                        <mat-option *ngFor="let type of typeReports" [value]="type.type_file_id">
+                            {{type.description}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="fileType.invalid">
+                        {{ 'FORM_TYPE_REPORT_ERROR_MSG' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="col-12 col-md-12 mt-2">
+                    <mat-fileupload [uploadLabel]="'FORM_DOCUMENT' | translate" (getFiles)="getDocument($event)"></mat-fileupload>
+                    <mat-error *ngIf="typeMimeError">
+                        <p>{{ 'FORM_DOC_ERROR_MSG' | translate }}</p>
+                    </mat-error>
+                </div>
+
+                <div ngbAutofocus class="col-12 m-3 button-area text-left">
+                    <button class="btn btn-sm btn-share m-3" style="float: right"
+                        [disabled]="reportForm.invalid"
+                        (click)="updateReport()">{{ 'BTN_UPDATE' | translate }}</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

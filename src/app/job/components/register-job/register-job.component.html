@@ -1,0 +1,60 @@
+<ngx-spinner name="register-job" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 ">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center" >{{ 'JOB_REGISTER' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formJob" class="row m-2">
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_TITLE_FR' | translate }}*" formControlName="title_fr">
+                        <mat-error *ngIf="titreFr.invalid">
+                            {{ 'FORM_TITLE_FR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_TITLE_EN' | translate }}*" formControlName="title_en">
+                        <mat-error *ngIf="titreEn.invalid">
+                            {{ 'FORM_TITLE_EN_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{'FORM_LINK' | translate }}*" formControlName="link">
+                        <mat-error *ngIf="link.invalid">
+                           {{ 'FORM_LINK_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                      <mat-form-field class="col-md-12">
+                        <input matInput  (click)="dateExpiration.open()" formControlName="expiredDate" [matDatepicker]="dateExpiration" placeholder="{{ 'FORM_DATE_EXPIRATION' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateExpiration"></mat-datepicker-toggle>
+                        <mat-datepicker #dateExpiration [startAt]="startDate"></mat-datepicker>
+                       <mat-error *ngIf="expireDate.invalid">
+                         {{ 'FORM_DATE_EXPIRATION_ERROR_MSG' | translate }}
+                        </mat-error> 
+                      </mat-form-field>
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formJob.invalid"
+                            (click)="createJob()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+
+<ngx-spinner name="delete-survey" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">{{ 'SPINNER_DELETE' | translate }}</p>
+</ngx-spinner>
+
+<ngx-spinner name="enable-survey" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">{{ 'SPINNER_ENABLE' | translate }}</p>
+</ngx-spinner>
+
+<ngx-spinner name="publish-survey" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white">{{ 'SPINNER_PUBLISH' | translate }}</p>
+</ngx-spinner>
+
+<div class="trans-history m-3">
+    <div class="row">
+        <div class="col-4 my-4">
+            <div class="text-left">
+                <mat-radio-group class="col-12  col-md-3" (change)="filterActive(isActive)"  [(ngModel)]="isActive" > 
+                    <mat-radio-button [value]="1" [checked]="isActive === 1">{{'FORM_PUBLISH' | translate }}</mat-radio-button>
+                    <mat-radio-button [value]="0" [checked]="isActive === 0">{{'FORM_UNPUBLISH' | translate }}</mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="col-4 my-2">
+            <div class="text-left">
+                <mat-form-field appearance="outline" class="col-12 col-md-6">
+                    <mat-label>{{ 'FILTER_BY_SURVEY_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="row">
+        <div class="col-12 col-lg-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th >{{ 'FORM_TITLE' | translate }}</th>
+                                    <th >{{ 'FORM_DESCRIPTION' | translate }}</th>
+                                    <th >{{ 'FORM_DATE' | translate }} </th>
+                                    <th>{{ 'FORM_STATUS' | translate }}</th>
+                                    <th ></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let survey of activeList; let i = index">
+                                <tr class="table-borderless">
+                                    <th>{{i+1}}</th>
+                                    <td>{{survey.survey_title}}</td>
+                                    <td> <p class="text-left" [innerHTML]="limitSize(survey.survey_desc)"></p></td>
+                                    <td>{{survey.created_at ? survey.created_at.split(' ')[0] : ''}}</td>
+                                    <td>{{survey.published === 1 ? ('FORM_PUBLISH' | translate) : ('FORM_UNPUBLISH' | translate) }}</td>
+                                    <td *ngIf="survey.published === 0 ">
+                                        <button mat-stroked-button (click)="publishSurvey(survey)">{{'FORM_PUBLISH' | translate }}</button>
+                                    </td>
+                                    <td *ngIf="survey.published !== 0 ">{{'FORM_RESULTAT_PUBLISH' | translate }}</td>
+                                    <td>
+                                        <button mat-stroked-button (click)="enableSurvey(survey)">{{survey.expired === 1 ? ('BTN_ENABLE' | translate) : ('BTN_DISABLE' | translate) }}</button>
+                                    </td>
+                                </tr>
+                                <tr class="table-borderless">
+                                    <th></th>
+                                    <td>
+                                        <button mat-stroked-button (click)="addAnswerSurvey(survey)">{{ 'FORM_ADD_ANSWER' | translate }}</button>
+                                    </td>
+                                    <td>
+                                        <button mat-stroked-button (click)="answerSurvey(survey)">{{ 'SURVEY_ANSWERS' | translate }}</button>
+                                    </td>
+
+                                    <td>
+                                        <button mat-stroked-button (click)="memberAnsSurvey(survey)">{{ 'FORM_MEMBER_ANSWER' | translate }}</button>
+                                    </td>
+                                    <td>
+                                        <button mat-stroked-button (click)="statSurvey(survey)">{{ 'FORM_STATS' | translate }}</button>
+                                    </td>
+                                  
+                                    <td>
+                                        <button mat-stroked-button (click)="updateSurvey(survey)">{{ 'BTN_UPDATE' | translate }}</button>
+                                    </td>
+                                    <td>
+                                        <button mat-stroked-button (click)="deleteSurvey(survey, i)">{{ 'BTN_DELETE' | translate }}</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activeList && activeList.length > 0 && totalPages>1">
+                <div class="row justify-content-between">
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"  class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activeList.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}
+                        </span>
+                    </div>
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+    </div>
+</div>
+
+<div class="text-center" *ngIf="!loadingShow && activeList&&activeList.length === 0">
+    <p>{{ 'SURVEYS_EMPTY_LIST' | translate }}</p>
+</div>

@@ -1,0 +1,32 @@
+<div @slidePage class="container" id="wallet-view"> 
+    <div class="row my-2">
+        <div class="col-12 col-lg-12">
+            <h3>{{ 'EVENT_DASHBOARD_TITLE' | translate }}</h3>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div @slideBlock class="col-12 col-md-12 col-lg-12">
+            <mat-tab-group animationDuration="0ms">
+                <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_LIST' | translate }}" >
+                     <app-event-list></app-event-list> 
+                </mat-tab>
+                <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_TYPE' | translate }}" >
+                     <app-event-type-list></app-event-type-list>
+                </mat-tab>
+                <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_PLACE' | translate }}" >
+                     <app-event-location-list></app-event-location-list>
+                </mat-tab>
+                <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_ADD' | translate }}" >
+                    <app-create-event></app-create-event>
+               </mat-tab>
+     
+                <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_ADD_PRESENCE' | translate }}" >
+                    <app-add-event-attendance></app-add-event-attendance>
+               </mat-tab>
+               <mat-tab label="{{ 'EVENT_DASHBOARD_EVENT_ADD_LATENESS' | translate }}" >
+                <app-add-event-lateness></app-add-event-lateness>
+              </mat-tab>
+            </mat-tab-group>                      
+        </div>
+    </div>
+</div>

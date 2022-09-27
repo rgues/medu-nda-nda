@@ -1,0 +1,25 @@
+<div @slidePage class="container" id="wallet-view"> 
+    <div class="row my-2">
+        <div class="col-12 col-lg-6">
+            <h3>{{'RPN_MANAGE_FAMILY_WALLET' | translate }}</h3>
+        </div>
+    </div>
+    <div class="row my-4">
+        <div @slideBlock class="col-12 col-lg-10">
+            <mat-tab-group animationDuration="0ms">
+                <mat-tab label="{{ 'RPN_FAMILY_WALLET' | translate }}">
+                     <app-rpn-family-credit></app-rpn-family-credit> 
+                </mat-tab>
+                <mat-tab label="{{ 'RPN_PAID_EVENT' | translate }}">
+                     <app-rpn-event-payment></app-rpn-event-payment>
+                </mat-tab>
+                <mat-tab label="{{ 'RPN_TRANSACTIONS' | translate }}">
+                     <app-rpn-transaction></app-rpn-transaction> 
+                </mat-tab>
+                <mat-tab label="{{ 'FORM_SOLDE' | translate }}">
+                    <app-balance></app-balance> 
+               </mat-tab>
+            </mat-tab-group>                      
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+<ngx-spinner name="delete-trans" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{'DELETE_LOADING' | translate }}...</p>
+</ngx-spinner>
+<div class="trans-history">
+    <div class="row">
+        <div class="col-4 my-2">
+            <div class="text-left">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-12">
+                    <mat-label>{{ 'FORM_MEMBER' | translate }} </mat-label>
+                    <mat-select (selectionChange)="researchTransaction()" [(ngModel)]="memberId">
+                        <mat-option [value]="-1"> {{ 'ALL_MAS' | translate}} </mat-option>
+                        <mat-option *ngFor="let member of listMembers" [value]="member.member_id">
+                            {{member.Fname}}  {{member.Lname}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-4 my-2">
+            <div class="text-left">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-12">
+                    <mat-label>{{ 'FORM_DATE' | translate }} </mat-label>
+                    <mat-select (selectionChange)="researchTransaction()" [(ngModel)]="year">
+                        <mat-option [value]="-1"> {{ 'ALL' | translate}} </mat-option>
+                        <mat-option *ngFor="let year of yearList" [value]="year">
+                            {{year}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-4 my-2">
+            <div class="text-left">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-12">
+                    <mat-label>{{ 'FILTER_BY_MEMBER_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="loadingShow">
+        <div class="col">
+            <p class="text-center"> <img class="pl-2"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_NAME' | translate }}</th>
+                            <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                            <th scope="col">{{ 'FORM_BALANCE' | translate }}</th>
+                            <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="activerpnWallet&&activerpnWallet.length > 0">
+                        <tr *ngFor="let trans of activerpnWallet; let i = index">
+                            <th>{{i+1}}</th>
+                            <td>{{trans.Fname}} {{trans.Lname}}</td>
+                            <td>{{trans.transaction_type}}</td>
+                            <td>{{trans.amount}} $</td>
+                            <td>{{trans.solde}} $</td>
+                            <td>{{trans.transaction_date}}</td>
+                            <td> <button mat-stroked-button
+                                    (click)="deleteTransaction(trans, i)">{{'BTN_DELETE' | translate}}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activerpnWallet && activerpnWallet.length > 0 && totalPages>1">
+                <div class="row justify-content-between">
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activerpnWallet.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}
+                        </span>
+                    </div>
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

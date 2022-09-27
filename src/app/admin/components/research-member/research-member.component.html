@@ -1,0 +1,107 @@
+<div class="trans-history m-3">
+    <form [formGroup]="formMember" class="row m-2">
+            <div class="col-md-3 ">
+                <h3>{{ 'FORM_FILTER_BY' | translate }} : </h3>
+            </div>
+            <mat-form-field class="col-md-3">
+                <mat-label>{{ 'FORM_PROFESSION' | translate }} </mat-label>
+                <mat-select formControlName="profession_id">
+                    <mat-option [value]="0"> {{ 'ALL' | translate}} </mat-option>
+                    <mat-option *ngFor="let prof of professionList" [value]="prof.Profession_Id">
+                        {{prof.Profession_desc}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-md-3">
+                <mat-label>{{ 'FORM_TOWN' | translate }}</mat-label>
+                <mat-select formControlName="city_id">
+                    <mat-option [value]="0">  {{ 'ALL' | translate}}  </mat-option>
+                    <mat-option *ngFor="let city of citiesList" [value]="city.City_Id">{{city.City}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div class="col-md-2">
+                <button class="m-1" mat-stroked-button (click)="researchMember()">{{'BTN_SEARCH' | translate}}</button>
+            </div>
+    </form>
+    <div style="text-align: center;">
+            <img *ngIf="loadingShow" class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> 
+    </div>
+  
+    <div class="row" *ngIf="activelistMembers&&activelistMembers.length > 0">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PICTURE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_FIRSTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_LASTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_NDAP' | translate }}</th>
+                                 <!--    <th scope="col">{{ 'FORM_PROFESSION' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_TOWN' | translate }}</th> -->
+                                    <th scope="col">{{ 'FORM_MEMBER_SINCE' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="activelistMembers&&activelistMembers.length > 0">
+                                <tr *ngFor="let member of activelistMembers; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td> <img class="search-image" (click)="showImage(member)" src="{{member.Photo_url ? member.Photo_url : 'assets/images/post-img.svg' }}" alt=""></td>
+                                    <td> {{member.Fname}}</td>
+                                    <td>{{member.Lname}}</td>
+                                    <td>{{member.Ndap}}</td>
+                               <!--      <td>{{getProfessionName(member.Profession_Id, professionList)}}</td>
+                                    <td>{{getCityName(member.City_Id, citiesList)}}</td> -->
+                                    <td>{{member.status_date | date : 'mediumDate'}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activelistMembers && activelistMembers.length > 0 && totalPages>1">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activelistMembers.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}</span>
+                    </div>
+
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="activelistMembers&&activelistMembers.length === 0 && !loadingShow">
+        <div class="col">
+                <p class="text-center">{{ 'PROFILE_EMPTY' | translate }}</p>
+        </div>  
+    </div>
+</div>

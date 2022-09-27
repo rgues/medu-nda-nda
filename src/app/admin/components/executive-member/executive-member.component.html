@@ -1,0 +1,98 @@
+<div class="trans-history m-3">
+        <div class="row">
+                <div class="col align-items-center">
+                    <h4>{{ 'LIST_MEMBER_EXECUTIVE_TITLE' | translate }}</h4>
+                </div>
+                <div class="col">
+                    <button
+                        *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id === 13 || user.executive_id===5 || user.executive_id===6"
+                        class="m-1" mat-stroked-button (click)="addMember()">{{ 'BTN_ADD' | translate }}</button>
+                </div>
+            </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped" *ngIf="activelistMembers&&activelistMembers.length > 0">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_FIRSTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_LASTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_ROLE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_DATE_START' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_DATE_END' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_STATUS' | translate }}</th>
+                                    <th scope="col" *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13  || user.executive_id===5 || user.executive_id===6"></th>
+                                    <th scope="col" *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13  || user.executive_id===5 || user.executive_id===6">
+                                        {{ 'FORM_ACTION' | translate }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let member of activelistMembers; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{member.Fname}}</td>
+                                    <td>{{member.Lname}}</td>
+                                    <td>{{member.executive_desc}}</td>
+                                    <td>{{member.start_date}}</td>
+                                    <td>{{member.end_date}}</td>
+                                    <td class="button-area">
+                                        <span  *ngIf="user.executive_id !== 1 && user.executive_id!==2  && user.executive_id!==13 && user.executive_id!==5 && user.executive_id!==6">{{member.Status_desc}}</span>
+                                        <button  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13  || user.executive_id===5 || user.executive_id===6" mat-stroked-button (click)="updateStatut(member, 'statut')">
+                                            {{member.Status_desc}}</button>
+                                    </td>
+                                    <td  *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13  || user.executive_id===5 || user.executive_id===6">
+                                        <button class="btn btm-sm btn-share"
+                                            (click)="updateMember(member.member_id)">{{ 'FORM_VIEW' | translate }}</button>
+                                    </td>
+                                    <td class="button-area" *ngIf="user.executive_id === 1 || user.executive_id===2 || user.executive_id===13  || user.executive_id===5 || user.executive_id===6">
+                                        <button mat-stroked-button (click)="updateRole(member, 'role')">{{ 'FORM_BTN_UPDATE_ROLE' | translate }}</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Pagination-->
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activelistMembers && activelistMembers.length > 0 && totalPages>1">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{ 'FORM_NUMBER' | translate }}</span>
+                    </div>
+
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+listMembers.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}</span>
+                    </div>
+
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

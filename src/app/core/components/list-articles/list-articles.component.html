@@ -1,0 +1,38 @@
+<div class="text-center">
+  <img
+    *ngIf="articles.length === 0"
+    class="pl-2"
+    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+  />
+</div>
+<div class="article-wrapper">
+  <div
+    class="card p-2 m-2 articles-second-box"
+    *ngFor="let article of articles"
+  >
+    <div class="col-12 col-md-12">
+      <h4 [innerHTML]="article.title"></h4>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-4 col-md-3 m-1">
+        <img
+          class="img-thumbnail"
+          src="{{
+            article.picture ? article.picture : 'assets/images/vacances.jpg'
+          }}"
+        />
+      </div>
+      <div class="col-8 col-md-7 m-1 article-text-box">
+        <p class="text-justify" [innerHTML]="limitSize(article.content)"></p>
+        <button
+          style="float: right;"
+          class="btn btn-read_more text-right"
+          (click)="showMore(article)"
+          *ngIf="article.content.length > 300"
+        >
+          Voir plus &#8594;
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

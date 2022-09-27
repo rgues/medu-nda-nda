@@ -1,0 +1,34 @@
+<div class="trans-history m-3">
+        <div class="row">
+            <div class="col-md-12 py-3">
+                <div class="tab-wrappers">
+                    <div class="tab-content">
+                        <div class="table-responsive">
+                            <table class="table table-striped" *ngIf="familiesMembers&&familiesMembers.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'FORM_NUMBER_LIGNE' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_FIRSTNAME' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_LASTNAME' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_NDAP' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_PHONE' | translate }}</th>
+                                        <th scope="col">{{ 'FORM_GENDER' | translate }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let member of familiesMembers; let i = index">
+                                        <th>{{i+1}}</th>
+                                        <td>{{member.Fname}}</td>
+                                        <td>{{member.Lname}}</td>
+                                        <td>{{member.Ndap}}</td>
+                                        <td>{{member.Telephone1}}</td>
+                                        <td>{{member.Gender}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

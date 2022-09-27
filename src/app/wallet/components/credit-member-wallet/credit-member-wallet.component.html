@@ -1,0 +1,40 @@
+<ngx-spinner name="credit-member" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+<div d="topup">
+    <form [formGroup]="formRpn" class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 col-md-7">
+                    <mat-form-field  [hideRequiredMarker]="hideRequired" class="d-block">
+                        <mat-label>{{'FORM_MEMBER' | translate }}*:</mat-label>
+                        <mat-select formControlName="member_id">
+                            <mat-option *ngFor="let member of memberList" [value]="member.member_id">
+                                    {{member.Fname}} {{member.Lname}} </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="memberId.invalid && memberId.dirty">
+                            {{'FORM_MEMBER_ERROR_MSG' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <!---->
+                    <mat-form-field [hideRequiredMarker]="hideRequired"  class="d-block">
+                        <input matInput placeholder="{{ 'FORM_AMOUNT' | translate }}" formControlName="amount" required>
+                        <span matSuffix>$</span>
+                        <mat-error *ngIf="montant.invalid && montant.dirty">
+                          {{'FORM_AMOUNT_ERROR_MSG' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <div class="my-4">
+                        <button mat-stroked-button class="btn-share" [disabled]="formRpn.invalid"
+                            (click)="creditWalletMember()" type="submit">{{ 'BTN_PAY' | translate }}</button>
+                    </div>
+                </div>
+                <div class="col-12 col-md-5" id="logocompany">
+                    <img src="assets/images/coins.jpeg"
+                        class="mx-auto d-block" alt="credit RPN">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

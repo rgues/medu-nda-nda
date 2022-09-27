@@ -1,0 +1,72 @@
+<ngx-spinner name="create-member" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 page-title">
+                    <div class="col-12">
+                        <h4 class="py-2">{{ 'ADD_NEW_EXECUTIVE_MEMBER' | translate }}</h4>
+                    </div>
+                </div>
+                <form [formGroup]="formMember" class="row m-2">
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_MEMBER' | translate }}</mat-label>
+                        <mat-select formControlName="member_id">
+                            <mat-option *ngFor="let member of membersList" [value]="member.member_id">
+                                {{member.Fname}} {{member.Lname}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="memberId.invalid">
+                            {{ 'FORM_MEMBER_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <mat-label>{{ 'FORM_ROLE' | translate }}</mat-label>
+                        <mat-select formControlName="executive_id">
+                            <mat-option *ngFor="let role of roleList" [value]="role.executive_id">
+                                {{role.executive_desc}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="executiveId.invalid">
+                            {{ 'FORM_ROLE_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (click)="dateStart.open()" matInput formControlName="startDate"
+                            [matDatepicker]="dateStart" placeholder="{{ 'FORM_DATE_START' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateStart"></mat-datepicker-toggle>
+                        <mat-datepicker #dateStart [startAt]="defaultDate"></mat-datepicker>
+                        <mat-error *ngIf="dateStartError.invalid">
+                            {{ 'FORM_DATE_START_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <input (click)="dateEnd.open()" matInput formControlName="endDate"
+                            [matDatepicker]="dateEnd" placeholder="{{ 'FORM_DATE_END' | translate }}*">
+                        <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                        <mat-datepicker #dateEnd [startAt]="defaultDate"></mat-datepicker>
+                        <mat-error *ngIf="dateEndError.invalid">
+                            {{ 'FORM_DATE_END_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+
+                    <div class="col-12 mt-3 button-area">
+                        <button ngbAutofocus mat-stroked-button [disabled]="formMember.invalid"
+                            (click)="addMember()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

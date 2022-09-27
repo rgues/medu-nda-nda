@@ -1,0 +1,10 @@
+<div id="slideBackground" *ngIf="randomArticles" >
+    <div  class="slide-image animated rotateInDownLeft delay-2s">
+            <img src="{{imageBackground}}" alt="">
+    </div>
+    
+    <div class="slide-content">
+            <h4 class="slide-title animated swing delay-3s" [innerHTML]="randomArticles.title"></h4>
+            <p class="slide-desc animated fadeInDown delay-5s" [innerHTML]="limitSize(randomArticles.content)"></p>
+    </div>  
+</div>

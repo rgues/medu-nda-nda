@@ -1,0 +1,44 @@
+// p:hover{
+//   animation: pulse;
+//   animation-duration: 3s;
+//   animation-delay: 3s;
+//   background-color: #2fa84f;
+//   color: #fff;
+//   margin-left: 5px;
+//   padding: 2rem;
+//   cursor: pointer;
+// }
+
+:focus {
+  outline: none;
+}
+
+.articles-second-box {
+  margin: 1rem 0 !important;
+  padding: 1rem 0rem 1rem 2rem !important;
+  transition: all 0.5s;
+}
+
+.articles-second-box:hover {
+  transform: scale(1.06);
+  z-index: 1000;
+}
+
+.btn-read_more {
+  color: rgb(107, 108, 109);
+  transition: all 0.3s;
+}
+
+.btn-read_more:hover {
+  border: 1px solid #f94675;
+  color: #f94675;
+  border-radius: 2px;
+  background-color: #fff;
+  cursor: pointer;
+  transform: scale(1.03);
+}
+
+.btn-read_more:active {
+  background-color: #f94675;
+  color: #fff;
+}

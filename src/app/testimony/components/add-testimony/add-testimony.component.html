@@ -1,0 +1,75 @@
+<ngx-spinner name="add-testi" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{ 'SPINNER_REGISTRATION' | translate }}</p>
+</ngx-spinner>
+
+<div class="container" id="tontine-new">
+
+    <div class="row justify-content-center">
+
+        <div class="col-12 col-md-10">
+
+            <div @slideInLeft class="card">
+                <div class="row mx-0 ">
+                    <div class="col-12">
+                        <h4 class="py-2 text-center" >{{ 'THOUGHT_CREATE' | translate }}</h4>
+                    </div>
+                </div>
+                <div class="row" *ngIf="loadingShow">
+                    <div class="col">
+                        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+                    </div>
+                </div>
+                <form [formGroup]="formThought" class="row m-2">
+
+                    <mat-form-field class="col-md-12" *ngIf="listMembers && listMembers.length > 0">
+                        <mat-label>{{ 'ARTICLE_AUTHOR' | translate }}*</mat-label>
+                        <mat-select formControlName="member_id">
+                            <mat-option *ngFor="let author of listMembers" [value]="author.member_id">{{author.Fname}} {{author.Lname}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="author.invalid">
+                           {{ 'ARTICLE_AUTHOR_ERROR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+            
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_MEMBER_NAME_FR' | translate }}*" formControlName="member_desc_fr">
+                        <mat-error *ngIf="memberDesFr.invalid">
+                            {{ 'FORM_MEMBER_NAME_FR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+    
+                    <mat-form-field class="col-md-12">
+                        <input matInput placeholder="{{ 'FORM_MEMBER_NAME_EN' | translate }}*" formControlName="member_desc_en">
+                        <mat-error *ngIf="memberDesEn.invalid">
+                            {{ 'FORM_MEMBER_NAME_EN_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'FORM_THOUGHT_FR' | translate }}*" formControlName="member_thought_fr"></textarea>
+                        <mat-error *ngIf="memberThoughtFr.invalid">
+                            {{ 'FORM_THOUGHT_FR_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-12">
+                        <textarea rows="3" matInput placeholder="{{ 'FORM_THOUGHT_EN' | translate }}*" formControlName="member_thought_en"></textarea>
+                        <mat-error *ngIf="memberThoughtEn.invalid">
+                            {{ 'FORM_THOUGHT_EN_MSG' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+      
+
+                    <div class="col-12 mt-3 button-area">
+                        <button mat-stroked-button [disabled]="formThought.invalid"
+                            (click)="createThought()">{{ 'BTN_SAVE' | translate }}</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

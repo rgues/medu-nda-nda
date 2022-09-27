@@ -1,0 +1,110 @@
+
+
+
+:host {
+  .mat-icon {
+    vertical-align: middle;
+    margin-right: 20px;
+  }
+  .profile-card {
+    text-align: center;
+    padding: 0 20px 20px 20px;
+    img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}
+
+.sidebar-nav { 
+  padding: .5rem;
+  list-style-type: none;
+
+  &__item {
+    width: 100%;
+  }
+
+  &__link {
+    width: 100%;
+  }
+ 
+  .navbar-nav{ 
+        .nav-item {
+            padding: 0.1rem 1rem;
+            font-size: 1rem;
+            transition: all 1s;
+
+            &:hover {
+              background: rgba(59, 59, 59, 0.685);
+              color: #fff;
+            }
+        
+            a.nav-link::after, a.nav-link:hover::after{
+              float: right;
+            } 
+
+        
+            a.nav-link:hover::before,
+            a.nav-link:focus::before,
+            .active a.nav-link::before {
+              width: 100%;
+            }
+            .active a.nav-link,
+            a.nav-link:focus {
+              color: #2fa84f;
+            }
+            .btn-sm {
+              border-radius: 0.1rem;
+              transition: all 0.2s ease-in-out;
+              word-wrap: break-word;
+            }
+            .btn-sm:hover,
+            .btn-sm:focus,
+            .active .btn-sm {
+              background-color: rgba(59, 59, 59, 0.685);
+              border-color: rgba(59, 59, 59, 0.685);
+              color: #fff;
+              box-shadow: none;
+            }
+            .dropdown-menu {
+              width: 100%;
+              margin-left: -1rem;
+              border: none;
+              &:show {
+                display: block;
+              }
+            }
+            
+            .btn-member {
+              .mat-icon {
+                position: absolute;
+              }
+              .dropdown-item {
+               //  padding: 0.25rem 0;
+                span {
+                  display: block;
+                  margin-top: 2px;
+                }
+              }
+            
+            }
+        }
+
+}
+
+}
+
+
+  .user-avatar {
+    position: relative;
+    img {
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      margin: 5px;
+      filter: grayscale(100%);
+    }
+  }
+

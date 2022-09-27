@@ -1,0 +1,123 @@
+<ngx-spinner name="delete-action" *ngIf="loadingShow" bdColor="rgba(48,168,79,0.3)" size="medium" color="#fff"
+    type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">{{'DELETE_LOADING' | translate }}...</p>
+</ngx-spinner>
+<div class="trans-history m-3">
+    <div class="row">
+        <div class="col-10 align-items-center">
+            <h3>{{ 'LIST_EXPESENSES_TITLE' | translate }}</h3>
+        </div>
+        <div class="col-md-2">
+            <button  mat-stroked-button (click)="addExpenses()">{{ 'BTN_ADD' | translate }}</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6 my-4">
+            <div class="text-left">
+                <mat-label>{{ 'FORM_TYPE' | translate }} : </mat-label>
+                <mat-select  class="col-12  col-md-3" (selectionChange)="filterStatut(statusFilterId)" [(ngModel)]="statusFilterId">
+                    <mat-option [value]="-1">{{ 'ALL_TYPE' | translate }}
+                    </mat-option>
+                    <mat-option *ngFor="let statut of statusList" [value]="statut.id">{{statut.type}}
+                    </mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="col-6 my-2">
+            <div class="text-right">
+                <mat-form-field appearance="outline" class="col-12 ml-auto col-md-6">
+                    <mat-label>{{ 'FILTER_BY_MEMBER_NAME' | translate }}</mat-label>
+                    <input (change)="filterByKeyword(searchTerm)" matInput [(ngModel)]="searchTerm" name="searchTerm">
+                    <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_FIRSTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_LASTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PHONE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_DESCRIPTION' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                                    <th scope="col"></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="activelistData&&activelistData.length > 0">
+                                <tr *ngFor="let data of activelistData; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{data.infos_membre.firstname}}</td>
+                                    <td>{{data.infos_membre.lastname}}</td>
+                                    <td>{{data.infos_membre.Telephone1}}</td>
+                                    <td>{{getTypeName(data.infos_spent.spending_type_id)}}</td>
+                                    <td>{{data.infos_spent.amount}}</td>
+                                    <td>{{data.infos_spent.description}}</td>
+                                    <td>{{data.infos_spent.date | date : 'mediumDate'}}</td>
+                                    <td>
+                                        <button mat-stroked-button
+                                            (click)="updateExpenses(data)">{{'BTN_UPDATE' | translate}}</button>
+                                    </td>
+                                    <td>
+                                        <button mat-stroked-button
+                                            (click)="deleteExpense(data,i)">{{'BTN_DELETE' | translate}}</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activelistData && activelistData.length > 0 && totalPages>1">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{'FORM_NUMBER' | translate }}</span>
+                    </div>
+
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activelistData.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}</span>
+                    </div>
+
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loadingShow">
+    <div class="col">
+        <p class="text-center"> <img  class="pl-2" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> </p>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="trans-history m-3">
+    <div class="row" *ngIf="loadingShow">
+        <div class="col">
+            <p class="text-center"> <img class="pl-2"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 py-3">
+            <div class="tab-wrappers">
+                <div class="tab-content">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>{{'FORM_NUMBER_LIGNE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_FIRSTNAME' | translate }} &
+                                        {{ 'FORM_LASTNAME' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_PHONE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_EMAIL' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_OBJECT' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_MESSAGE' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                                    <th scope="col"> {{ 'FORM_COMMENT' | translate }}</th>
+                                    <th scope="col">{{ 'FORM_STATUS_MESSAGE' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="activelistContacts&&activelistContacts.length > 0">
+                                <tr *ngFor="let contact of activelistContacts; let i = index">
+                                    <th>{{i+1}}</th>
+                                    <td>{{contact.full_name}}</td>
+                                    <td>{{contact.phone_num}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact.reason}}</td>
+                                    <td>{{contact.comment}}</td>
+                                    <td>{{contact.contact_date}}</td>
+                                    <td>{{contact.answer_member}}</td>
+                                    <td>
+                                        <button mat-stroked-button *ngIf="contact.replied ==='No'"
+                                            (click)="answerFeeback(contact)">{{'FORM_ANSWER' | translate}}
+                                        </button>
+                                        <span
+                                            *ngIf="contact.replied ==='Yes'">{{'FORM_ALREADY_ANSWER' | translate}} : 
+                                            {{contact.infos_member && contact.infos_member.Fname ? contact.infos_member.Fname : ''  }}
+                                            {{contact.infos_member && contact.infos_member.Lname ? contact.infos_member.Lname : ''  }}
+                                            {{contact.infos_member && contact.infos_member.Fname && contact.infos_member.Lname ? '': ('FORM_UNKNOWN' | translate)  }}
+                                             -   {{contact && contact.replied_date ? contact.replied_date : ''  }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 d-flex justify-content-end mr-4"
+                *ngIf="activelistContacts && activelistContacts.length > 0 && totalPages>1">
+
+                <div class="row justify-content-between">
+
+                    <div class="col-3 p-0">
+                        <span class="pagination-text">{{'FORM_NUMBER' | translate }}</span>
+                    </div>
+
+                    <div class="col-2 p-0">
+                        <select style="border-width: 0px;" (change)="updateNumberItems(nbItemsByPage)"
+                            class="pagination-text" [ngModelOptions]="{standalone:true}" [(ngModel)]="nbItemsByPage">
+                            <option class="pagination-text" *ngFor="let item of getNumberItems()" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-3 p-0">
+                        <span
+                            class="pagination-text">{{currentPage>1?(currentPage-1)*nbItemsByPage+1:1}}-{{nbItemsByPage*currentPage>nbItems?(nbItemsByPage*(currentPage -1))+activelistContacts.length:nbItemsByPage*currentPage}}
+                            of {{nbItems}}</span>
+                    </div>
+
+                    <div class="col-1 pagination-text">
+                        <i class="mat-icon material-icons" (click)="previousActiveList(currentPage)">chevron_left</i>
+                    </div>
+
+                    <div class="col-1 pagination-text" (click)="nextActiveList(currentPage)">
+                        <i class="mat-icon material-icons">chevron_right</i>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

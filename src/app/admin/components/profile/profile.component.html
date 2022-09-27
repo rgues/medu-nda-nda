@@ -1,0 +1,284 @@
+<div class="text-center">
+    <img *ngIf="loginProcess" class="pl-2"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+</div>
+<div class="row justify-content-around m-3">
+
+    <!-- Information Général-->
+    <div class="col-md-5 profil-card" *ngIf="profilDataUser">
+        <div class="pictureProfil m-1 col-12 col-md-6">
+            <img  class="search-image" src="{{profilDataUser.Photo_url ? profilDataUser.Photo_url : 'assets/images/user.png' }}"  alt=" ">
+        </div>
+        <div class="col-12 col-md-12">
+            <h5>{{ 'PROFILE_WELCOME' | translate }} {{profilDataUser.Ndap ? profilDataUser.Ndap : ''}}
+                {{profilDataUser.Fname ? profilDataUser.Fname : ''}} </h5>
+        </div>
+        <hr>
+        <div class="col-12 col-md-12 m-1">
+            <p> <span>{{ 'FORM_MATRICULE' | translate }} : </span>
+                {{profilDataUser.matricule ? profilDataUser.matricule : ''}} </p>
+        </div>
+        <div class="col-12 col-md-12">
+            <p> <span>{{ 'PROFILE_ACTIVE_MEMBERS' | translate }} : </span>
+                {{profilDataUser.date_demande ? (profilDataUser.date_demande | date : 'mediumDate') : ''}} </p>
+        </div>
+        <div class="col-12 col-md-12">
+            <p> <span> {{ 'FORM_PHONE' | translate }} : </span>
+                {{profilDataUser.Telephone1 ? profilDataUser.Telephone1 : '' }} </p>
+        </div>
+        <div class="col-12 col-md-12">
+            <p> <span> {{ 'FORM_EMAIL' | translate }} : </span> {{profilDataUser.Email ? profilDataUser.Email : '' }}
+            </p>
+        </div>
+
+        <div class="col-12 col-md-12">
+            <p> <span>{{ 'FORM_BIRTHDAY' | translate }} : </span>
+                {{profilDataUser.DOBDay ? profilDataUser.DOBDay : '' }} - 
+                {{profilDataUser.DOBMonth ? months[profilDataUser.DOBMonth - 1] :  '' }} </p>
+        </div>
+        <div class="col-12 m-3 button-area text-left">
+            <button class="btn btn-sm btn-share m-3" style="float: right"
+                (click)="updateProfile(profilDataUser)">{{ 'BTN_UPDATE' | translate }}</button>
+        </div>
+    </div>
+
+    <!-- Information Discipline-->
+    <div class="col-md-5 profil-card" *ngIf="profilDataDiscipline">
+        <div class="col-12 col-md-12">
+            <h5>{{ 'FORM_ATTITUDE' | translate }}</h5>
+        </div>
+        <hr>
+
+        <div class="col-12 col-md-12 mt-2">
+            <h6> {{ 'PROFILE_NUMBER_AG' | translate }} {{currentYear}} : </h6>
+        </div>
+
+        <div class="col-12 col-md-12 mt-2">
+            <P><span> {{ 'PROFILE_PRESENCE' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.presence_AG ? profilDataDiscipline.presence_AG : 0}} </P>
+        </div>
+
+        <div class="col-12 col-md-12 mt-3">
+            <P><span> {{ 'PROFILE_ABSENCE' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.absence_AG ? profilDataDiscipline.absence_AG : 0}} </P>
+        </div>
+
+        <div class="col-12 col-md-12 mt-3">
+            <P><span> {{ 'PROFILE_LATENESS' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.retard_AG ? profilDataDiscipline.retard_AG : 0}} </P>
+        </div>
+
+        <div class="col-12 col-md-12 mt-2">
+            <h6> {{ 'PROFILE_NUMBER_AG_PAST' | translate }} : </h6>
+        </div>
+
+        <div class="col-12 col-md-12 mt-3">
+            <P><span> {{ 'PROFILE_PRESENCE' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.presence_AG_20_derniers_mois ? profilDataDiscipline.presence_AG_20_derniers_mois : 0}}
+            </P>
+        </div>
+
+        <div class="col-12 col-md-12 mt-3">
+            <P><span> {{ 'PROFILE_ABSENCE' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.absence_AG_20_derniers_mois ? profilDataDiscipline.absence_AG_20_derniers_mois : 0}}
+            </P>
+        </div>
+
+
+        <div class="col-12 col-md-12 mt-3">
+            <P><span> {{ 'PROFILE_LATENESS' | translate }} : </span>
+                {{profilDataDiscipline && profilDataDiscipline.retard_AG_20_derniers_mois ? profilDataDiscipline.retard_AG_20_derniers_mois : 0}}
+            </P>
+        </div>
+    </div>
+</div>
+
+
+<div class="row justify-content-around m-3">
+
+    <!-- Information RPN-->
+    <div class="col-md-5 profil-card" *ngIf="profilDataRpn">
+        <div class="col-12 col-md-12">
+            <h5>{{ 'FORM_RPN' | translate }} </h5>
+        </div>
+        <hr>
+        <div class="col-12 col-md-12 m-1">
+            <P><span>{{ 'PROFILE_RPN_FAMILY' | translate }} : </span>
+                {{profilDataRpn.liste_membre_famille_rpn && profilDataRpn.liste_membre_famille_rpn.length > 0 ? ('FORM_YES' | translate) : ('FORM_NO' | translate) }}
+            </P>
+        </div>
+        <div class="col-12 col-md-12">
+            <h6>{{ 'PROFILE_RPN_FAMILY_LIST' | translate }} : </h6>
+        </div>
+        <div class="col-12 col-md-12" *ngFor="let membre of profilDataRpn.liste_membre_famille_rpn">
+            <p>{{membre.family_member_name}}</p>
+        </div>
+   
+    </div>
+
+
+    <div class="col-md-5 profil-card" *ngIf="profilDataReception">
+
+        <!-- Information Reception-->
+        <div class="col-12 col-md-12">
+            <h5>{{ 'PROFILE_RPN_RECEPTION' | translate }}</h5>
+        </div>
+        <hr>
+
+        <div class="col-12 col-md-12 m-1">
+            <P><span>{{ 'PROFILE_NUMBER_RECEPTION' | translate }} : </span>
+                {{profilDataReception.nombre_reception ? profilDataReception.nombre_reception : 0}}</P>
+        </div>
+        <div class="col-12 col-md-12">
+            <P><span>{{ 'PROFILE_LAST_RECEPTION' | translate }} : </span>
+                {{profilDataReception.derniere_reception ? (profilDataReception.derniere_reception | date: 'mediumDate') : ''}}
+            </P>
+        </div>
+        <div class="col-12 col-md-12">
+            <h6>{{ 'FORM_EVENT' | translate }} : </h6>
+        </div>
+        <div class="col-12 col-md-12">
+            <P><span>{{ 'FORM_LASTNAME' | translate }} : </span>
+                {{profilDataReception.evenement &&  profilDataReception.evenement.description ? profilDataReception.evenement.description : ''}}
+            </P>
+        </div>
+        <div class="col-12 col-md-12">
+            <P><span>{{ 'FORM_DATE' | translate }} : </span>
+                {{ profilDataReception.evenement && profilDataReception.evenement.event_date  ? (profilDataReception.evenement.event_date | date: 'mediumDate') : ''}}
+            </P>
+        </div>
+
+        <div class="col-12 col-md-12">
+            <P><span>{{ 'FORM_AMOUNT' | translate }} : </span>
+                {{profilDataReception.evenement && profilDataReception.evenement.amount_due ? profilDataReception.evenement.amount_due : 0}}
+                $</P>
+        </div>
+
+        <div class="col-12 col-md-12">
+            <P><span>{{ 'FORM_ADDRESS' | translate }} : </span>
+                {{profilDataReception.evenement && profilDataReception.evenement.place_address ? profilDataReception.evenement.place_address : ''}}
+            </P>
+        </div>
+        <div class="col-12 col-md-12">
+            <P><span>{{'FORM_STREET' | translate }} : </span>
+                {{profilDataReception.evenement && profilDataReception.evenement.place_name ? profilDataReception.evenement.place_name : ''}}
+            </P>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="row justify-content-around m-3">
+
+
+    <div class="col-md-5 profil-card" *ngIf="profilDataTransactionWallet">
+
+        <!-- Information Transaction-->
+        <div class="col-12 col-md-12">
+            <h5>{{ 'PROFILE_RPN_WALLET_TRANSACTION' | translate }}</h5>
+        </div>
+        <hr>
+        <div class="col-12 col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ 'FORM_DESCRIPTION' | translate }}</th>
+                        <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                        <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                        <th scope="col">{{ 'FORM_BALANCE' | translate }}</th>
+                        <th scope="col">{{ 'FORM_DATE' | translate }} </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="profilDataTransactionWallet&&profilDataTransactionWallet.length > 0">
+                    <tr *ngFor="let trans of profilDataTransactionWallet">
+                        <td>{{trans.description}}</td>
+                        <td>{{trans.transaction_type}}</td>
+                        <td>{{trans.amount ? trans.amount : 0}} $</td>
+                        <td>{{trans.solde ? trans.solde : 0}} $</td>
+                        <td>{{trans.transaction_date | date: 'mediumDate' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+        <div class="col-12 col-md-12">
+            <p><span>{{ 'PROFILE_RPN_CREDIT' | translate }} : </span>
+                {{profilDataRpn.credit_rpn ? profilDataRpn.credit_rpn : 0}} $ </p>
+        </div>
+
+    </div>
+
+    <!-- Information porte monnaie-->
+    <div class="col-md-5 profil-card" *ngIf="profilDataReleveBancaire">
+        <div class="col-12 col-md-12">
+            <h5>{{ 'PROFILE_FINANCIAL_STATUS' | translate }}</h5>
+        </div>
+        <div class="col-12 col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">{{ 'FORM_DESCRIPTION' | translate }}</th>
+                        <th scope="col">{{ 'FORM_TYPE' | translate }}</th>
+                        <th scope="col">{{ 'FORM_AMOUNT' | translate }}</th>
+                        <th scope="col">{{ 'FORM_BALANCE' | translate }}</th>
+                        <th scope="col">{{ 'FORM_DATE' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="profilDataReleveBancaire&&profilDataReleveBancaire.transactions_wallet.length > 0">
+                    <tr *ngFor="let trans of profilDataReleveBancaire.transactions_wallet">
+                        <td>{{trans.description}}</td>
+                        <td>{{trans.transaction_type}}</td>
+                        <td>{{trans.amount ? trans.amount : 0 }} $</td>
+                        <td>{{trans.solde ? trans.solde : 0}} $</td>
+                        <td>{{trans.transaction_date | date: 'mediumDate'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="col-12 col-md-12">
+
+            <p> <span>{{ 'FORM_ACCOUNT_BALANCE' | translate }}: </span> <strong>
+                    {{profilDataReleveBancaire.solde_wallet ? profilDataReleveBancaire.solde_wallet : 0}} $</strong>
+            </p>
+        </div>
+    </div>
+</div>
+
+ <!-- Designated Events -->
+<div class="row justify-content-around m-3" *ngIf="events && events.length > 0">
+        <div class="col-md-5  profil-card" >
+            <div class="col-12 col-md-12">
+                <h5>{{ 'DESIGNATED_EVENTS' | translate }}</h5>
+            </div>
+            <div class="col-12 col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ 'FORM_EVENT' | translate }}</th>
+                            <th scope="col">{{ 'FORM_DESCRIPTION' | translate }}</th>
+                            <th scope="col">{{ 'FORM_ATTENDANCE' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="events&&events.length > 0">
+                        <tr *ngFor="let event of events">
+                            <td>{{event.event_type_desc}}</td>
+                            <td>{{event.description}}</td>
+                            <td>{{event.attendance === 1 ? ( 'FORM_YES' | translate) : ( 'FORM_NO' | translate)  }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+     </div>
+</div>
+
+<!-- Actualites des membres-->
+<div class="container m-3">
+    <div class="col-12 col-md-12">
+        <h3>{{ 'PROFILE_LAST_ARTICLES' | translate }}</h3>
+    </div>
+    <app-members-articles></app-members-articles>
+</div>

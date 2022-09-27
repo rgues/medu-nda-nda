@@ -1,0 +1,80 @@
+<div class="container" id="feedback">
+    <div class="col-12 col-md-10 col-lg-12">
+        <p class="m-2">{{'CONTACT_MESSAGE' | translate}}</p>
+        <form class="row justify-content-between" [formGroup]="contactForm">
+            <div class="col-12 form-group">
+                <input type="text"
+                    [ngClass]="(nomPrenom.dirty && !nomPrenom.valid)?'form-control form-control-error':'form-control'"
+                    name="nom_et_prenom" placeholder="{{'FORM_FIRSTNAME' | translate }} & {{'FORM_LASTNAME' | translate }} *" formControlName="nom_et_prenom" required>
+                <div class="error" *ngIf="nomPrenom.dirty && nomPrenom.invalid">
+                   {{ 'FORM_NAME_ERROR_MSG' | translate }}
+                </div>
+            </div>
+
+            <div class="col-12 form-group">
+                <input type="text"
+                    [ngClass]="(telephone.dirty && !telephone.valid)?'form-control form-control-error':'form-control'"
+                    placeholder="{{'FORM_PHONE' | translate }}*" formControlName="telephone" required>
+                <div class="error" *ngIf="telephone.dirty && telephone.invalid">
+                    {{'FORM_PHONE_ERROR_MSG' | translate }}
+                </div>
+            </div>
+
+            <div class="col-12 form-group">
+                <input type="email"
+                    [ngClass]="(email.dirty && !email.valid)?'form-control form-control-error':'form-control'"
+                    placeholder="{{ 'FORM_EMAIL' | translate }}*" formControlName="email" required>
+                <div class="error" *ngIf="email.dirty && email.invalid">
+                        {{ 'FORM_EMAIL_ERROR_MSG' | translate }}
+                </div>
+            </div>
+
+            <div class="col-12 form-group">
+                <input type="text"
+                    [ngClass]="(objet.dirty && !objet.valid)?'form-control form-control-error':'form-control'"
+                    placeholder="{{ 'FORM_OBJECT' | translate }}*" formControlName="objet" required>
+                <div class="error" *ngIf="objet.dirty && objet.invalid">
+                   {{ 'FORM_OBJECT_ERROR_MSG' | translate }}
+                </div>
+            </div>
+
+            <div class="col-12 form-group">
+                <textarea rows="5" type="text"
+                    [ngClass]="(message.dirty && !message.valid)?'form-control form-control-error':'form-control'"
+                    placeholder="{{ 'FORM_MESSAGE' | translate }}*" formControlName="message" required></textarea>
+                <div class="error" *ngIf="message.dirty && message.invalid">
+                   {{ 'FORM_MESSAGE_ERROR_MSG' | translate }}
+                </div>
+            </div>
+            <div class="col-12 form-group">
+                <div class="row">
+                 
+                        <div class="col-2">
+                                <button mat-stroked-button (click)="generateCaptcha()">{{ 'BTN_RENEW' | translate }}</button>
+                        </div> 
+                        <div class="col-2">
+                            <h3 class="captcha">{{captcha}}</h3>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="col-12 form-group">
+                <input type="text"
+                    [ngClass]="(captchaE.dirty && !captchaE.valid)?'form-control form-control-error':'form-control'"
+                    placeholder="{{'FORM_CAPTCHA' | translate }}*" formControlName="captcha" required>
+                <div class="error" *ngIf="objet.dirty && objet.invalid">
+                    {{'FORM_CAPTCHA_ERROR_MSG' | translate }}
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-md text-right">
+                        <button mat-stroked-button class="btn-share" [disabled]="contactForm.invalid" type="submit"
+                            (click)="createContact()">{{'BTN_SEND' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
